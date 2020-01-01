@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Регистрация на поиске</string>
+    <string name="call_sign">Позывной</string>
+    <string name="edit_data">Редактировать данные</string>
+    <string name="enter_your_data_below">Введите свои данные ниже.</string>
+    <string name="name">Имя</string>
+    <string name="phone_number">Номер телефона</string>
+    <string name="save_data">Сохранить данные</string>
+    <string name="surname">Фамилия</string>
+</resources>
