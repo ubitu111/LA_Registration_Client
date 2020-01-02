@@ -59,12 +59,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private String getMessage(){
-        String message = "Имя: " + name + "\n"
-                + "Фамилия: " + surname + "\n"
-                + "Позывной: " + callSign + "\n"
-                + "Номер телефона: " + phoneNumber + "\n";
-
-        return message;
+         return name + "\n"
+                + surname + "\n"
+                + callSign + "\n"
+                + phoneNumber + "\n";
     }
 
     private void startQRCodeActivity(){

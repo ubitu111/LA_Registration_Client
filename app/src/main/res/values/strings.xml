@@ -3,7 +3,7 @@
     <string name="enter_your_data_below">Enter your data below</string>
     <string name="name">Name</string>
     <string name="surname">Surname</string>
-    <string name="call_sign">Call sign</string>
+    <string name="call_sign">Call sign (optional)</string>
     <string name="phone_number">Phone number</string>
     <string name="save_data">Save data</string>
     <string name="edit_data">Edit Data</string>
