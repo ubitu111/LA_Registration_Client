@@ -12,4 +12,13 @@
     <string name="saved_surname">Surname -</string>
     <string name="saved_call_sign">Call sign -</string>
     <string name="saved_phone_number">Phone number -</string>
+    <string name="have_a_car">Have a car</string>
+    <string name="mark_of_a_car">Mark of a car</string>
+    <string name="model_of_a_car">Model of a car</string>
+    <string name="registration_number_of_a_car">Registration number of a car</string>
+    <string name="color_of_a_car">Color of a car</string>
+    <string name="saved_mark_of_a_car">Mark of a car -</string>
+    <string name="saved_model_of_a_car">Model of a car -</string>
+    <string name="saved_registration_number_of_a_car">Registration number -</string>
+    <string name="saved_color_of_a_car">Color of a car -</string>
 </resources>

@@ -1,6 +1,7 @@
 package ru.kireev.mir.laregistrationclient;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,6 +13,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,11 +44,29 @@ public class QRCodeActivity extends AppCompatActivity {
         TextView savedSurname = findViewById(R.id.textViewSavedSurname);
         TextView savedCallSign = findViewById(R.id.textViewSavedCallSign);
         TextView savedPhoneNumber = findViewById(R.id.textViewSavedPhoneNumber);
+        TextView textViewSavedCarMark = findViewById(R.id.textViewSavedCarMark);
+        TextView textViewSavedCarModel = findViewById(R.id.textViewSavedCarModel);
+        TextView textViewSavedCarRegistrationNumber = findViewById(R.id.textViewSavedCarRegistrationNumber);
+        TextView textViewSavedCarColor = findViewById(R.id.textViewSavedCarColor);
+        LinearLayout linearLayoutInfoCarGroupTitles = findViewById(R.id.linearLayoutInfoCarGroupTitles);
+        LinearLayout linearLayoutInfoCarGroup = findViewById(R.id.linearLayoutInfoCarGroup);
+
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         savedName.setText(preferences.getString("name", ""));
         savedSurname.setText(preferences.getString("surname", ""));
         savedCallSign.setText(preferences.getString("callSign",""));
         savedPhoneNumber.setText(preferences.getString("phoneNumber", ""));
+        textViewSavedCarMark.setText(preferences.getString("carMark", ""));
+        textViewSavedCarModel.setText(preferences.getString("carModel", ""));
+        textViewSavedCarRegistrationNumber.setText(preferences.getString("carRegistrationNumber", ""));
+        textViewSavedCarColor.setText(preferences.getString("carColor", ""));
+        if (preferences.getBoolean("haveACar", false)) {
+            linearLayoutInfoCarGroupTitles.setVisibility(View.VISIBLE);
+            linearLayoutInfoCarGroup.setVisibility(View.VISIBLE);
+        } else {
+            linearLayoutInfoCarGroupTitles.setVisibility(View.INVISIBLE);
+            linearLayoutInfoCarGroup.setVisibility(View.INVISIBLE);
+        }
 
         //смотрим результат метки из прошлой активности
         //если равно exist, значит QRCode уже существует и его нужно взять с хранилища
