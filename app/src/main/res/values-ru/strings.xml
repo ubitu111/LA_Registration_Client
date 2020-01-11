@@ -8,4 +8,9 @@
     <string name="phone_number">Номер телефона</string>
     <string name="save_data">Сохранить данные</string>
     <string name="surname">Фамилия</string>
+    <string name="saved_data">Сохраненные данные:</string>
+    <string name="saved_call_sign">Позывной -</string>
+    <string name="saved_name">Имя -</string>
+    <string name="saved_phone_number">Телефон -</string>
+    <string name="saved_surname">Фамилия -</string>
 </resources>

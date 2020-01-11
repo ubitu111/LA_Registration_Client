@@ -12,6 +12,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.zxing.BarcodeFormat;
@@ -26,6 +27,8 @@ public class QRCodeActivity extends AppCompatActivity {
 
     private ImageView imageViewQRCode;
     private Toast exitToast;
+    private static final int IMAGE_WIDTH = 700;
+    private static final int IMAGE_HEIGHT = 700;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +37,16 @@ public class QRCodeActivity extends AppCompatActivity {
         imageViewQRCode = findViewById(R.id.imageViewQRCode);
         Intent intent = getIntent();
         String message = intent.getStringExtra("message");
+
+        TextView savedName = findViewById(R.id.textViewSavedName);
+        TextView savedSurname = findViewById(R.id.textViewSavedSurname);
+        TextView savedCallSign = findViewById(R.id.textViewSavedCallSign);
+        TextView savedPhoneNumber = findViewById(R.id.textViewSavedPhoneNumber);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        savedName.setText(preferences.getString("name", ""));
+        savedSurname.setText(preferences.getString("surname", ""));
+        savedCallSign.setText(preferences.getString("callSign",""));
+        savedPhoneNumber.setText(preferences.getString("phoneNumber", ""));
 
         //смотрим результат метки из прошлой активности
         //если равно exist, значит QRCode уже существует и его нужно взять с хранилища
@@ -52,7 +65,7 @@ public class QRCodeActivity extends AppCompatActivity {
         else {
             Bitmap bitmap = null;
             try {
-                bitmap = QRCodeGenerator.encodeAsBitmap(message, BarcodeFormat.QR_CODE, 1000, 1000);
+                bitmap = QRCodeGenerator.encodeAsBitmap(message, BarcodeFormat.QR_CODE, IMAGE_WIDTH, IMAGE_HEIGHT);
             } catch (WriterException e) {
                 e.printStackTrace();
             }

@@ -27,4 +27,81 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewSavedData"
+        android:padding="4dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/saved_data"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewQRCode" />
+
+    <TextView
+        android:id="@+id/textViewTitleSavedName"
+        android:padding="4dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/saved_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewSavedData" />
+
+    <TextView
+        android:id="@+id/textViewSavedName"
+        android:padding="4dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/textViewTitleSavedName"
+        app:layout_constraintTop_toBottomOf="@+id/textViewSavedData" />
+
+    <TextView
+        android:id="@+id/textViewTitleSavedSurname"
+        android:padding="4dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/saved_surname"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTitleSavedName" />
+
+    <TextView
+        android:id="@+id/textViewSavedSurname"
+        android:padding="4dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/textViewTitleSavedSurname"
+        app:layout_constraintTop_toBottomOf="@+id/textViewSavedName" />
+
+    <TextView
+        android:id="@+id/textViewTitleSavedCallSign"
+        android:padding="4dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/saved_call_sign"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTitleSavedSurname" />
+
+    <TextView
+        android:id="@+id/textViewSavedCallSign"
+        android:padding="4dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/textViewTitleSavedCallSign"
+        app:layout_constraintTop_toBottomOf="@+id/textViewSavedSurname" />
+
+    <TextView
+        android:id="@+id/textViewTitleSavedPhoneNumber"
+        android:padding="4dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/saved_phone_number"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTitleSavedCallSign" />
+
+    <TextView
+        android:id="@+id/textViewSavedPhoneNumber"
+        android:padding="4dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/textViewTitleSavedPhoneNumber"
+        app:layout_constraintTop_toBottomOf="@+id/textViewSavedCallSign" />
 </androidx.constraintlayout.widget.ConstraintLayout>
