@@ -21,4 +21,16 @@
     <string name="saved_model_of_a_car">Model of a car -</string>
     <string name="saved_registration_number_of_a_car">Registration number -</string>
     <string name="saved_color_of_a_car">Color of a car -</string>
+    <string name="greeting_heading">Анкета волонтёра ПСО "Лиза Алерт"  г.Томск</string>
+    <string name="greeting_body">Здравствуйте, дорогие друзья! Основной задачей отряда "Лиза Алерт"
+        является поиск пропавших людей. Если вы хотите присоединиться к отряду "Лиза Алерт" в г.Томске
+        вам необходимо пройти обязательную регистрацию на форуме "Лиза Алерт" (http://lizaalert.org) и
+        заполнить данную анкету. Так же необходимо установить на смартфон приложения «Телеграмм» и
+        добавиться в канал оповещения @alert70 для получения оповещений о сборах.</string>
+    <string name="greeting_asterisk">* Обязательно</string>
+    <string name="full_name">ФИО</string>
+    <string name="asterisk">" *"</string>
+    <string name="my_answer">Мой ответ</string>
+    <string name="date_of_birth">Дата рождения</string>
+    <string name="action_profile_volunteer">Заполнить анкету</string>
 </resources>
