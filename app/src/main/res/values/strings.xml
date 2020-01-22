@@ -21,16 +21,32 @@
     <string name="saved_model_of_a_car">Model of a car -</string>
     <string name="saved_registration_number_of_a_car">Registration number -</string>
     <string name="saved_color_of_a_car">Color of a car -</string>
-    <string name="greeting_heading">Анкета волонтёра ПСО "Лиза Алерт"  г.Томск</string>
-    <string name="greeting_body">Здравствуйте, дорогие друзья! Основной задачей отряда "Лиза Алерт"
-        является поиск пропавших людей. Если вы хотите присоединиться к отряду "Лиза Алерт" в г.Томске
-        вам необходимо пройти обязательную регистрацию на форуме "Лиза Алерт" (http://lizaalert.org) и
-        заполнить данную анкету. Так же необходимо установить на смартфон приложения «Телеграмм» и
-        добавиться в канал оповещения @alert70 для получения оповещений о сборах.</string>
-    <string name="greeting_asterisk">* Обязательно</string>
-    <string name="full_name">ФИО</string>
+    <string name="greeting_heading">Questionnaire of volunteer PSO Liza Alert Tomsk</string>
+    <string name="greeting_asterisk">* Must be completed</string>
+    <string name="full_name">Fullname</string>
     <string name="asterisk">" *"</string>
-    <string name="my_answer">Мой ответ</string>
-    <string name="date_of_birth">Дата рождения</string>
-    <string name="action_profile_volunteer">Заполнить анкету</string>
+    <string name="my_answer">My answer</string>
+    <string name="date_of_birth">Date of birth</string>
+    <string name="action_profile_volunteer">Fill out a form</string>
+    <string name="phone_number_profile">Contact phone number (8 **********)</string>
+    <string name="forum_nickname">Nick on the forum PSO \"Lisa Alert\" http://lizaalert.org (registration on the forum is required)</string>
+    <string name="link_to_vk">Link to a page in VK (or a name in VK where you can be found)</string>
+    <string name="address">Address of residence</string>
+    <string name="pass_to_Seversk">Is there a pass to Seversk?</string>
+    <string name="Yes">Yes</string>
+    <string name="No">No</string>
+    <string name="phone_number_confidant">The contact phone number of the authorized person (the person we will call in case of any emergency with you is mom, dad, sister, roommate)</string>
+    <string name="signs">Your signs (height, weight, hair color, eye color)</string>
+    <string name="special_signs">Your special signs (glasses, visible scars, tattoos, birthmarks, moles)</string>
+    <string name="health">Allergic reactions, other health features that we better know in advance</string>
+    <string name="have_a_car_profile">Do you have a car (model, color, registration number)?</string>
+    <string name="other_tech">Any other technique that could help us in our search (ATV, snowmobile, etc.)?</string>
+    <string name="equipment">Do you have something that can help during the search (navigator, compass, flashlight, copier, multifunction device, etc.)?</string>
+    <string name="search_format">Which search format is preferable for you?</string>
+    <string name="forest">Trip to the forest</string>
+    <string name="city">Work within the city</string>
+    <string name="info_search">Info Support, Networking</string>
+    <string name="resource_help">Resource Assistance</string>
+    <string name="send_profile">Send profile</string>
+    <string name="greeting_body">Hello dear friends! The main task of the detachment Lisa Alert is the search for missing people. If you want to join the Liza Alertv squad in Tomsk, you need to register on the Liza Alert forum (http://lizaalert.org) and fill out this form. It is also necessary to install Telegram applications on your smartphone and add to the alert channel @ alert70 to receive notification of fees.</string>
 </resources>
