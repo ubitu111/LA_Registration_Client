@@ -22,8 +22,8 @@
     <string name="saved_mark_of_a_car">Марка авто -</string>
     <string name="saved_model_of_a_car">Модель авто -</string>
     <string name="saved_registration_number_of_a_car">Госномер -</string>
-    <string name="No">Нет</string>
-    <string name="Yes">Да</string>
+    <string name="no">Нет</string>
+    <string name="yes">Да</string>
     <string name="action_profile_volunteer">Заполнить анкету</string>
     <string name="address">Адрес проживания</string>
     <string name="asterisk">" *"</string>
@@ -34,7 +34,7 @@
     <string name="forum_nickname">Ник на форуме ПСО «Лиза Алерт» http://lizaalert.org (регистрация на форуме обязательна)</string>
     <string name="full_name">ФИО</string>
     <string name="greeting_asterisk">* Обязательно</string>
-    <string name="greeting_body">Здравствуйте, дорогие друзья! Основной задачей отряда Лиза Алертявляется поиск пропавших людей. Если вы хотите присоединиться к отряду Лиза Алертв г.Томске вам необходимо пройти обязательную регистрацию на форуме Лиза Алерт(http://lizaalert.org) и заполнить данную анкету. Так же необходимо установить на смартфон приложения «Телеграмм» и добавиться в канал оповещения @alert70 для получения оповещений о сборах.</string>
+    <string name="greeting_body">Здравствуйте, дорогие друзья! Основной задачей отряда Лиза Алерт является поиск пропавших людей. Если вы хотите присоединиться к отряду Лиза Алерт в г.Томске вам необходимо пройти обязательную регистрацию на форуме Лиза Алерт (http://lizaalert.org) и заполнить данную анкету. Так же необходимо установить на смартфон приложения «Телеграмм» и добавиться в канал оповещения @alert70 для получения оповещений о сборах.</string>
     <string name="greeting_heading">Анкета волонтёра ПСО Лиза Алерт г.Томск</string>
     <string name="have_a_car_profile">Есть ли у вас автомобиль (модель, цвет, рег.знак)?</string>
     <string name="health">Аллергические реакции, другие особенности здоровья, о которых нам лучше знать заранее</string>
@@ -50,4 +50,12 @@
     <string name="send_profile">Отправить анкету</string>
     <string name="signs">Ваши приметы (рост, вес, цвет волос, цвет глаз)</string>
     <string name="special_signs">Ваши особые приметы (очки, заметные шрамы, тату, родимые пятна, родинки)</string>
+    <string name="fill_all_fields_with_asterisk">Необходимо заполнить все поля, помеченные звездочкой</string>
+    <string name="error_occurred">Произошла следующая ошибка:</string>
+    <string name="no_network">Нет соединения с интернетом.</string>
+    <string name="ok_sending_profile">Анкета отправлена успешно</string>
+    <string name="request_cancelled">Запрос отменен</string>
+    <string name="request_google_acc">Это приложение должно получить доступ к вашей учетной записи Google (через контакты).</string>
+    <string name="request_google_play_services">Это приложение требует Google Play Services. Пожалуйста, установите Google Play Services на свое устройство и перезапустите это приложение.</string>
+    <string name="sending_request">Отправка запроса..</string>
 </resources>

@@ -33,8 +33,8 @@
     <string name="link_to_vk">Link to a page in VK (or a name in VK where you can be found)</string>
     <string name="address">Address of residence</string>
     <string name="pass_to_Seversk">Is there a pass to Seversk?</string>
-    <string name="Yes">Yes</string>
-    <string name="No">No</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
     <string name="phone_number_confidant">The contact phone number of the authorized person (the person we will call in case of any emergency with you is mom, dad, sister, roommate)</string>
     <string name="signs">Your signs (height, weight, hair color, eye color)</string>
     <string name="special_signs">Your special signs (glasses, visible scars, tattoos, birthmarks, moles)</string>
@@ -49,4 +49,12 @@
     <string name="resource_help">Resource Assistance</string>
     <string name="send_profile">Send profile</string>
     <string name="greeting_body">Hello dear friends! The main task of the detachment Lisa Alert is the search for missing people. If you want to join the Liza Alertv squad in Tomsk, you need to register on the Liza Alert forum (http://lizaalert.org) and fill out this form. It is also necessary to install Telegram applications on your smartphone and add to the alert channel @ alert70 to receive notification of fees.</string>
+    <string name="fill_all_fields_with_asterisk">All fields marked with an asterisk must be filled</string>
+    <string name="ok_sending_profile">Profile sent successfully</string>
+    <string name="no_network">No network connection available.</string>
+    <string name="request_google_acc">This app needs to access your Google account (via Contacts).</string>
+    <string name="request_google_play_services">This app requires Google Play Services. Please install Google Play Services on your device and relaunch this app.</string>
+    <string name="sending_request">Sending request ..</string>
+    <string name="error_occurred">The following error occurred:</string>
+    <string name="request_cancelled">Request cancelled.</string>
 </resources>

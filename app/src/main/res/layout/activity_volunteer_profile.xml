@@ -327,7 +327,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/my_answer"
-                        android:inputType="phone"
+                        android:inputType="text"
                         android:textSize="14sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tvAddress" />
@@ -344,6 +344,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cvAddress">
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
@@ -360,20 +361,20 @@
                     <RadioGroup
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:layout_constraintTop_toBottomOf="@+id/tvPassToSeversk"
-                        app:layout_constraintStart_toStartOf="parent"  >
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvPassToSeversk">
 
                         <RadioButton
                             android:id="@+id/rbYesPassToSeversk"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/Yes" />
+                            android:text="@string/yes" />
 
                         <RadioButton
                             android:id="@+id/rbNoPassToSeversk"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/No" />
+                            android:text="@string/no" />
                     </RadioGroup>
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
@@ -425,9 +426,11 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cvPhoneNumberConfidant">
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
+
                     <TextView
                         android:id="@+id/tvSigns"
                         android:layout_width="wrap_content"
@@ -459,9 +462,11 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cvSigns">
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
+
                     <TextView
                         android:id="@+id/tvSpecialSigns"
                         android:layout_width="wrap_content"
@@ -493,9 +498,11 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cvSpecialSigns">
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
+
                     <TextView
                         android:id="@+id/tvHealth"
                         android:layout_width="wrap_content"
@@ -527,6 +534,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cvHealth">
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
@@ -544,26 +552,29 @@
                         android:id="@+id/rgCar"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:layout_constraintTop_toBottomOf="@+id/tvCar"
-                        app:layout_constraintStart_toStartOf="parent"  >
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvCar">
 
                         <RadioButton
                             android:id="@+id/rbNoCar"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/No" />
+                            android:text="@string/no" />
+
                         <RadioButton
                             android:id="@+id/rbYesCar"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/Yes" />
+                            android:text="@string/yes" />
                     </RadioGroup>
+
                     <EditText
                         android:id="@+id/etCar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="text"
                         android:textSize="14sp"
+                        android:visibility="gone"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/rgCar" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -579,9 +590,11 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cvCar">
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
+
                     <TextView
                         android:id="@+id/tvOtherTech"
                         android:layout_width="wrap_content"
@@ -613,9 +626,11 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cvOtherTech">
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
+
                     <TextView
                         android:id="@+id/tvEquipment"
                         android:layout_width="wrap_content"
@@ -647,9 +662,11 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cvEquipment">
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
+
                     <TextView
                         android:id="@+id/tvSearchFormat"
                         android:layout_width="wrap_content"
@@ -665,28 +682,31 @@
                         android:layout_height="wrap_content"
                         android:text="@string/forest"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tvSearchFormat"/>
+                        app:layout_constraintTop_toBottomOf="@id/tvSearchFormat" />
+
                     <CheckBox
                         android:id="@+id/cbSearchFormatCity"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/city"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/cbSearchFormatForest"/>
+                        app:layout_constraintTop_toBottomOf="@id/cbSearchFormatForest" />
+
                     <CheckBox
                         android:id="@+id/cbSearchFormatInfo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/info_search"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/cbSearchFormatCity"/>
+                        app:layout_constraintTop_toBottomOf="@id/cbSearchFormatCity" />
+
                     <CheckBox
                         android:id="@+id/cbSearchFormatResource"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/resource_help"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/cbSearchFormatInfo"/>
+                        app:layout_constraintTop_toBottomOf="@id/cbSearchFormatInfo" />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -694,14 +714,14 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/bSendProfile"
-                android:layout_margin="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="8dp"
                 android:text="@string/send_profile"
-                app:layout_constraintStart_toStartOf="parent"
+                android:onClick="onClickSendProfile"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cvSearchFormat"
-                />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cvSearchFormat" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
