@@ -14,6 +14,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -72,6 +73,7 @@ public class VolunteerProfileActivity extends AppCompatActivity implements EasyP
     private CheckBox cbSearchFormatInfo;
     private CheckBox cbSearchFormatResource;
     private Object[] data;
+    private SharedPreferences preferences;
 
     private GoogleAccountCredential mCredential;
     private ProgressDialog mProgress;
@@ -288,6 +290,7 @@ public class VolunteerProfileActivity extends AppCompatActivity implements EasyP
     }
 
     private void initializeElements(){
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
         data = new Object[16];
         mProgress = new ProgressDialog(this);
         mProgress.setMessage(getString(R.string.sending_request));
@@ -328,7 +331,46 @@ public class VolunteerProfileActivity extends AppCompatActivity implements EasyP
         mCredential = GoogleAccountCredential.usingOAuth2(
                 getApplicationContext(), Arrays.asList(SCOPES))
                 .setBackOff(new ExponentialBackOff());
-    }
+
+        etFullNameAnswer.setText(preferences.getString("fullName", ""));
+        etDateOfBirthAnswer.setText(preferences.getString("dateOfBirth", ""));
+        etPhoneNumberAnswer.setText(preferences.getString("phoneNumberProfile", ""));
+        etForumNicknameAnswer.setText(preferences.getString("forumNickName", ""));
+        etLinkToVKAnswer.setText(preferences.getString("linkToVk", ""));
+        etAddress.setText(preferences.getString("address", ""));
+        String pass = preferences.getString("passToSeversk", "");
+        if (!pass.isEmpty() && pass.equals(getString(R.string.yes))) {
+                rbYesPassToSeversk.setChecked(true);
+                rbNoPassToSeversk.setChecked(false);
+        }
+        etPhoneNumberConfidant.setText(preferences.getString("phoneNumberConfidant", ""));
+        etSigns.setText(preferences.getString("signs", ""));
+        etSpecialSigns.setText(preferences.getString("specialSigns", ""));
+        etHealth.setText(preferences.getString("health", ""));
+        etOtherTech.setText(preferences.getString("otherTech", ""));
+        etEquipment.setText(preferences.getString("equipment", ""));
+        String car = preferences.getString("car", "");
+        if (!car.isEmpty()) {
+            rbYesCar.setChecked(true);
+            etCar.setText(car);
+        }
+        String searchFormat = preferences.getString("searchFormat", "");
+        if (!searchFormat.isEmpty()) {
+            String[] searchFormatArr = searchFormat.split("___");
+            for (String s : searchFormatArr) {
+                if (s.equals(getString(R.string.forest)))
+                        cbSearchFormatForest.setChecked(true);
+                else if (s.equals(getString(R.string.city)))
+                        cbSearchFormatCity.setChecked(true);
+                else if (s.equals(getString(R.string.info_search)))
+                        cbSearchFormatInfo.setChecked(true);
+                else if (s.equals(getString(R.string.resource_help)))
+                        cbSearchFormatResource.setChecked(true);
+                }
+            }
+        }
+
+
 
     private boolean getEnteredData() {
         String fullName = etFullNameAnswer.getText().toString();
@@ -352,9 +394,9 @@ public class VolunteerProfileActivity extends AppCompatActivity implements EasyP
         String equipment = etEquipment.getText().toString();
         String searchFormat;
         StringBuilder sb = new StringBuilder();
-        if (cbSearchFormatForest.isChecked()) sb.append(getString(R.string.forest)).append(", ");
-        if (cbSearchFormatCity.isChecked()) sb.append(getString(R.string.city)).append(", ");
-        if (cbSearchFormatInfo.isChecked()) sb.append(getString(R.string.info_search)).append(", ");
+        if (cbSearchFormatForest.isChecked()) sb.append(getString(R.string.forest)).append("___");
+        if (cbSearchFormatCity.isChecked()) sb.append(getString(R.string.city)).append("___");
+        if (cbSearchFormatInfo.isChecked()) sb.append(getString(R.string.info_search)).append("___");
         if (cbSearchFormatResource.isChecked()) sb.append(getString(R.string.resource_help));
         searchFormat = sb.toString();
         Date currentDate = new Date();
@@ -375,6 +417,22 @@ public class VolunteerProfileActivity extends AppCompatActivity implements EasyP
         data[13] = signs;
         data[14] = specialSigns;
         data[15] = health;
+        preferences.edit()
+                .putString("fullName", fullName)
+                .putString("dateOfBirth", dateOfBirth)
+                .putString("phoneNumberProfile", phoneNumber)
+                .putString("forumNickName", forumNickname)
+                .putString("linkToVk", linkToVk)
+                .putString("address", address)
+                .putString("car", car)
+                .putString("passToSeversk", passToSeversk)
+                .putString("searchFormat", searchFormat)
+                .putString("otherTech", otherTech)
+                .putString("equipment", equipment)
+                .putString("phoneNumberConfidant", phoneNumberConfidant)
+                .putString("signs", signs)
+                .putString("specialSigns", specialSigns)
+                .putString("health", health).apply();
 
         return true;
     }
