@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
+import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -130,7 +131,7 @@ public class VolunteerProfileActivity extends AppCompatActivity implements EasyP
             String accountName = getPreferences(Context.MODE_PRIVATE)
                     .getString(PREF_ACCOUNT_NAME, null);
             if (accountName != null) {
-                mCredential.setSelectedAccountName(accountName);
+                mCredential.setSelectedAccount(new Account(accountName, getPackageName()));
                 setDataToApi();
             } else {
                 // Start a dialog from which the user can choose an account
@@ -433,7 +434,6 @@ public class VolunteerProfileActivity extends AppCompatActivity implements EasyP
                 .putString("signs", signs)
                 .putString("specialSigns", specialSigns)
                 .putString("health", health).apply();
-
         return true;
     }
 
