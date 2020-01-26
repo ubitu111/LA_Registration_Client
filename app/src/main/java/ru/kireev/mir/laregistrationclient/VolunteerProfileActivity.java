@@ -84,7 +84,8 @@ public class VolunteerProfileActivity extends AppCompatActivity implements EasyP
     private static final int REQUEST_PERMISSION_GET_ACCOUNTS = 1003;
     private static final String PREF_ACCOUNT_NAME = "accountName";
     private static final String[] SCOPES = { SheetsScopes.SPREADSHEETS };
-    private static final String SPREADSHEET_ID = "17HH6oNL2XJ8_DnHJcLpY64v5gIASSLWxUslsWMonOfI";
+    private static final String SPREADSHEET_ID = ""; // ID гугл таблицы
+    private static final String GOOGLE_SHEETS_TAB = "Anketa app!A2";
 
 
     @Override
@@ -478,11 +479,10 @@ public class VolunteerProfileActivity extends AppCompatActivity implements EasyP
          * @throws IOException
          */
         private void setDataToApi() throws IOException {
-            String range = "Data!A2";
             List<List<Object>> values = Arrays.asList(Arrays.asList(data));
             ValueRange valueRange = new ValueRange();
             valueRange.setValues(values);
-            mService.spreadsheets().values().append(SPREADSHEET_ID, range, valueRange)
+            mService.spreadsheets().values().append(SPREADSHEET_ID, GOOGLE_SHEETS_TAB, valueRange)
                     .setValueInputOption("RAW")
                     .execute();
 
