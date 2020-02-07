@@ -57,4 +57,9 @@
     <string name="sending_request">Sending request ..</string>
     <string name="error_occurred">The following error occurred:</string>
     <string name="request_cancelled">Request cancelled.</string>
+    <string name="fill_in_fields_info">Fill in the First Name, Last Name and Phone Number fields!</string>
+    <string name="fill_in_fields_car">Fill in all the data about the car!</string>
+    <string name="info_about_car">Mark, model, registration number, color</string>
+    <string name="back_to_exit">Click again to exit.</string>
+    <string name="patronymic_name">Patronymic name</string>
 </resources>

@@ -4,18 +4,18 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import java.io.File;
+
+import ru.kireev.mir.laregistrationclient.pojo.VolunteerForQR;
+import ru.kireev.mir.laregistrationclient.viewmodels.MainQRViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
     private EditText editTextCarModel;
     private EditText editTextCarRegistrationNumber;
     private EditText editTextCarColor;
+    private MainQRViewModel viewModel;
+    private static final int VOLUNTEER_ID = 0;
 
     private String name;
     private String surname;
@@ -63,34 +65,61 @@ public class MainActivity extends AppCompatActivity {
         editTextCarRegistrationNumber = findViewById(R.id.editTextCarRegistrationNumber);
         editTextCarColor = findViewById(R.id.editTextCarColor);
 
-        checkBoxHaveACar.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    editTextCarMark.setVisibility(View.VISIBLE);
-                    editTextCarModel.setVisibility(View.VISIBLE);
-                    editTextCarRegistrationNumber.setVisibility(View.VISIBLE);
-                    editTextCarColor.setVisibility(View.VISIBLE);
-                }
-                else {
-                    editTextCarMark.setVisibility(View.INVISIBLE);
-                    editTextCarModel.setVisibility(View.INVISIBLE);
-                    editTextCarRegistrationNumber.setVisibility(View.INVISIBLE);
-                    editTextCarColor.setVisibility(View.INVISIBLE);
-                }
+        checkBoxHaveACar.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                editTextCarMark.setVisibility(View.VISIBLE);
+                editTextCarModel.setVisibility(View.VISIBLE);
+                editTextCarRegistrationNumber.setVisibility(View.VISIBLE);
+                editTextCarColor.setVisibility(View.VISIBLE);
+            }
+            else {
+                editTextCarMark.setVisibility(View.GONE);
+                editTextCarModel.setVisibility(View.GONE);
+                editTextCarRegistrationNumber.setVisibility(View.GONE);
+                editTextCarColor.setVisibility(View.GONE);
             }
         });
+        viewModel = new MainQRViewModel(getApplication());
+        VolunteerForQR volunteerForQR = viewModel.getVolunteerForQR();
+        if (volunteerForQR != null) {
+            editTextName.setText(volunteerForQR.getName());
+            editTextSurname.setText(volunteerForQR.getSurname());
+            editTextCallSign.setText(volunteerForQR.getCallSign());
+            editTextPhoneNumber.setText(volunteerForQR.getPhoneNumber());
+            checkBoxHaveACar.setChecked(volunteerForQR.getHaveACar() == 1);
+            editTextCarMark.setText(volunteerForQR.getCarMark());
+            editTextCarModel.setText(volunteerForQR.getCarModel());
+            editTextCarRegistrationNumber.setText(volunteerForQR.getCarRegistrationNumber());
+            editTextCarColor.setText(volunteerForQR.getCarColor());
+        }
 
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        editTextName.setText(preferences.getString("name", ""));
-        editTextSurname.setText(preferences.getString("surname", ""));
-        editTextCallSign.setText(preferences.getString("callSign",""));
-        editTextPhoneNumber.setText(preferences.getString("phoneNumber", ""));
-        checkBoxHaveACar.setChecked(preferences.getBoolean("haveACar", haveACar));
-        editTextCarMark.setText(preferences.getString("carMark", carMark));
-        editTextCarModel.setText(preferences.getString("carModel", carModel));
-        editTextCarRegistrationNumber.setText(preferences.getString("carRegistrationNumber", carRegistrationNumber));
-        editTextCarColor.setText(preferences.getString("carColor", carColor));
+//        ApiFactory factory = ApiFactory.getInstance();
+//        ApiService apiService = factory.getApiService();
+//        Disposable disposable = apiService.getResponse()
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(responses -> {
+//                    for (Response response : responses) {
+//                        Log.i("response", response.getHello());
+//                        Log.i("response", response.getId());
+//                    }
+//                },
+//                        throwable -> Log.i("response", throwable.toString()));
+//
+//        Response response = new Response();
+//        response.setHello("wakamakafo");
+//        response.setId("123456712");
+//        apiService.postResponse(response).enqueue(new Callback<Response>() {
+//            @Override
+//            public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
+//                Log.i("response", response.message());
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Response> call, Throwable t) {
+//
+//            }
+//        });
     }
 
     public void onClickSaveData(View view) {
@@ -105,21 +134,14 @@ public class MainActivity extends AppCompatActivity {
         carColor = editTextCarColor.getText().toString();
 
         if (name.isEmpty() || surname.isEmpty() || phoneNumber.isEmpty()) {
-            Toast.makeText(this, "Заполните поля Имя, Фамилия и Номер телефона!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.fill_in_fields_info, Toast.LENGTH_SHORT).show();
         } else if (haveACar && (carMark.isEmpty() || carModel.isEmpty() || carRegistrationNumber.isEmpty() || carColor.isEmpty())) {
-            Toast.makeText(this, "Заполните все данные об автомобиле!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.fill_in_fields_car, Toast.LENGTH_SHORT).show();
         }
         else {
-            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-            preferences.edit().putString("name", name)
-                     .putString("surname", surname)
-                     .putString("callSign", callSign)
-                     .putString("phoneNumber", phoneNumber)
-                     .putBoolean("haveACar", haveACar)
-                     .putString("carMark", carMark)
-                     .putString("carModel", carModel)
-                     .putString("carRegistrationNumber", carRegistrationNumber)
-                     .putString("carColor", carColor).apply();
+            int haveACarInt = haveACar ? 1 : 0;
+            VolunteerForQR volunteerForQR = new VolunteerForQR(VOLUNTEER_ID, name, surname, callSign, phoneNumber, carMark, carModel, carRegistrationNumber, carColor, haveACarInt);
+            viewModel.insertVolunteerForQR(volunteerForQR);
             if (haveACar) {
                 markForQrCode = getMessageWithCar();
             } else {

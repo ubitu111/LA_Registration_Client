@@ -1,22 +1,13 @@
-package ru.kireev.mir.laregistrationclient.QRcodeUtils;
+package ru.kireev.mir.laregistrationclient.utils;
 
 import android.graphics.Bitmap;
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
-import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
-import com.google.zxing.qrcode.QRCodeWriter;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.nio.file.FileSystems;
-import java.nio.file.Path;
 import java.util.EnumMap;
 import java.util.Map;
 
@@ -30,12 +21,11 @@ public class QRCodeGenerator {
 
     public static Bitmap encodeAsBitmap(String contents, BarcodeFormat format, int img_width, int img_height)
             throws WriterException {
-        String contentsToEncode = contents;
-        if (contentsToEncode == null) {
+        if (contents == null) {
             return null;
         }
         Map<EncodeHintType, Object> hints = null;
-        String encoding = guessAppropriateEncoding(contentsToEncode);
+        String encoding = guessAppropriateEncoding(contents);
         if (encoding != null) {
             hints = new EnumMap<EncodeHintType, Object>(EncodeHintType.class);
             hints.put(EncodeHintType.CHARACTER_SET, encoding);
@@ -43,7 +33,7 @@ public class QRCodeGenerator {
         MultiFormatWriter writer = new MultiFormatWriter();
         BitMatrix result;
         try {
-            result = writer.encode(contentsToEncode, format, img_width, img_height, hints);
+            result = writer.encode(contents, format, img_width, img_height, hints);
         } catch (IllegalArgumentException iae) {
             // Unsupported format
             return null;

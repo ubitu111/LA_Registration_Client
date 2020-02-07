@@ -2,15 +2,14 @@ package ru.kireev.mir.laregistrationclient;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
-import android.os.Environment;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,15 +22,24 @@ import android.widget.Toast;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.List;
+import java.util.UUID;
 
-import ru.kireev.mir.laregistrationclient.QRcodeUtils.QRCodeGenerator;
+import ru.kireev.mir.laregistrationclient.pojo.VolunteerForQR;
+import ru.kireev.mir.laregistrationclient.utils.QRCodeGenerator;
+import ru.kireev.mir.laregistrationclient.viewmodels.MainQRViewModel;
 
 public class QRCodeActivity extends AppCompatActivity {
 
     private ImageView imageViewQRCode;
     private Toast exitToast;
+    private MainQRViewModel viewModel;
     private static final int IMAGE_WIDTH = 700;
     private static final int IMAGE_HEIGHT = 700;
 
@@ -40,13 +48,14 @@ public class QRCodeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qrcode);
         imageViewQRCode = findViewById(R.id.imageViewQRCode);
+        viewModel = new MainQRViewModel(getApplication());
         Intent intent = getIntent();
         String message = intent.getStringExtra("message");
 
-        TextView savedName = findViewById(R.id.textViewSavedName);
-        TextView savedSurname = findViewById(R.id.textViewSavedSurname);
-        TextView savedCallSign = findViewById(R.id.textViewSavedCallSign);
-        TextView savedPhoneNumber = findViewById(R.id.textViewSavedPhoneNumber);
+        TextView textViewSavedName = findViewById(R.id.textViewSavedName);
+        TextView textViewSavedSurname = findViewById(R.id.textViewSavedSurname);
+        TextView textViewSavedCallSign = findViewById(R.id.textViewSavedCallSign);
+        TextView textViewSavedPhoneNumber = findViewById(R.id.textViewSavedPhoneNumber);
         TextView textViewSavedCarMark = findViewById(R.id.textViewSavedCarMark);
         TextView textViewSavedCarModel = findViewById(R.id.textViewSavedCarModel);
         TextView textViewSavedCarRegistrationNumber = findViewById(R.id.textViewSavedCarRegistrationNumber);
@@ -54,21 +63,53 @@ public class QRCodeActivity extends AppCompatActivity {
         LinearLayout linearLayoutInfoCarGroupTitles = findViewById(R.id.linearLayoutInfoCarGroupTitles);
         LinearLayout linearLayoutInfoCarGroup = findViewById(R.id.linearLayoutInfoCarGroup);
 
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        savedName.setText(preferences.getString("name", ""));
-        savedSurname.setText(preferences.getString("surname", ""));
-        savedCallSign.setText(preferences.getString("callSign",""));
-        savedPhoneNumber.setText(preferences.getString("phoneNumber", ""));
-        textViewSavedCarMark.setText(preferences.getString("carMark", ""));
-        textViewSavedCarModel.setText(preferences.getString("carModel", ""));
-        textViewSavedCarRegistrationNumber.setText(preferences.getString("carRegistrationNumber", ""));
-        textViewSavedCarColor.setText(preferences.getString("carColor", ""));
-        if (preferences.getBoolean("haveACar", false)) {
-            linearLayoutInfoCarGroupTitles.setVisibility(View.VISIBLE);
-            linearLayoutInfoCarGroup.setVisibility(View.VISIBLE);
-        } else {
-            linearLayoutInfoCarGroupTitles.setVisibility(View.INVISIBLE);
-            linearLayoutInfoCarGroup.setVisibility(View.INVISIBLE);
+        //тестовый json для карт
+//        try {
+//            JSONObject value = new JSONObject()
+//                    .put("id", "123")
+//                    .put("firstName", "Геннадий")
+//                    .put("middleName", "Иванович")
+//                    .put("lastName", "Пупкин")
+//                    .put("geo", new JSONObject().put("lat", "52.0000").put("long", "83.0000"))
+//                    .put("phoneNumber", "89995556633")
+//                    .put("address", "Томск, Ленина 13, 14")
+//                    .put("withCar", true)
+//                    .put("severskPass", true);
+//
+//            Log.i("myjson", value.toString());
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//        UUID id = UUID.randomUUID();
+//        Log.i("myjson", id.toString());
+//        Geocoder geocoder = new Geocoder(this);
+//        try {
+//            List<Address> addresses = geocoder.getFromLocationName("г. Томск, улица Карла Ильмера 21, подъезд 6, квартира 215 ", 2);
+//            for (Address address : addresses) {
+//                Log.i("myjson", Double.toString(address.getLatitude()));
+//                Log.i("myjson", Double.toString(address.getLongitude()));
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+
+        VolunteerForQR volunteerForQR = viewModel.getVolunteerForQR();
+        if (volunteerForQR != null) {
+            textViewSavedName.setText(volunteerForQR.getName());
+            textViewSavedSurname.setText(volunteerForQR.getSurname());
+            textViewSavedCallSign.setText(volunteerForQR.getCallSign());
+            textViewSavedPhoneNumber.setText(volunteerForQR.getPhoneNumber());
+            if (volunteerForQR.getHaveACar() == 1) {
+                linearLayoutInfoCarGroupTitles.setVisibility(View.VISIBLE);
+                linearLayoutInfoCarGroup.setVisibility(View.VISIBLE);
+                textViewSavedCarMark.setText(volunteerForQR.getCarMark());
+                textViewSavedCarModel.setText(volunteerForQR.getCarModel());
+                textViewSavedCarRegistrationNumber.setText(volunteerForQR.getCarRegistrationNumber());
+                textViewSavedCarColor.setText(volunteerForQR.getCarColor());
+            } else {
+                linearLayoutInfoCarGroupTitles.setVisibility(View.INVISIBLE);
+                linearLayoutInfoCarGroup.setVisibility(View.INVISIBLE);
+            }
         }
 
         //смотрим результат метки из прошлой активности
@@ -130,7 +171,7 @@ public class QRCodeActivity extends AppCompatActivity {
     public void onBackPressed()
     {
         if (exitToast == null || exitToast.getView() == null || exitToast.getView().getWindowToken() == null) {
-            exitToast = Toast.makeText(this, "Нажмите еще раз для выхода", Toast.LENGTH_LONG);
+            exitToast = Toast.makeText(this, R.string.back_to_exit , Toast.LENGTH_LONG);
             exitToast.show();
         } else {
             exitToast.cancel();

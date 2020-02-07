@@ -107,14 +107,34 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <EditText
-                        android:id="@+id/etFullNameAnswer"
+                    android:id="@+id/etSurnameAnswer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/surname"
+                    android:inputType="textPersonName"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvFullName" />
+
+                    <EditText
+                        android:id="@+id/etNameAnswer"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/my_answer"
+                        android:hint="@string/name"
                         android:inputType="textPersonName"
                         android:textSize="14sp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tvFullName" />
+                        app:layout_constraintTop_toBottomOf="@id/etSurnameAnswer" />
+
+                    <EditText
+                        android:id="@+id/etPatronymicAnswer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/patronymic_name"
+                        android:inputType="textPersonName"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/etNameAnswer" />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -161,7 +181,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/my_answer"
-                        android:inputType="date"
+                        android:inputType="text"
                         android:textSize="14sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tvDateOfBirth" />
@@ -409,7 +429,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/my_answer"
-                        android:inputType="phone"
+                        android:inputType="text"
                         android:textSize="14sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tvPhoneNumberConfidant" />
@@ -575,6 +595,7 @@
                         android:inputType="text"
                         android:textSize="14sp"
                         android:visibility="gone"
+                        android:hint="@string/info_about_car"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/rgCar" />
                 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -58,4 +58,9 @@
     <string name="request_google_acc">Это приложение должно получить доступ к вашей учетной записи Google (через контакты).</string>
     <string name="request_google_play_services">Это приложение требует Google Play Services. Пожалуйста, установите Google Play Services на свое устройство и перезапустите это приложение.</string>
     <string name="sending_request">Отправка запроса..</string>
+    <string name="fill_in_fields_car">Заполните все данные об автомобиле!</string>
+    <string name="fill_in_fields_info">Заполните поля Имя, Фамилия и Номер телефона!</string>
+    <string name="info_about_car">Марка, модель, госномер, цвет</string>
+    <string name="back_to_exit">Нажмите еще раз для выхода</string>
+    <string name="patronymic_name">Отчество</string>
 </resources>

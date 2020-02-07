@@ -15,10 +15,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
@@ -47,12 +45,17 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
 
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
+import ru.kireev.mir.laregistrationclient.pojo.VolunteerForProfile;
+import ru.kireev.mir.laregistrationclient.viewmodels.ProfileViewModel;
 
 public class VolunteerProfileActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
-    private EditText etFullNameAnswer;
+    private EditText etSurnameAnswer;
+    private EditText etNameAnswer;
+    private EditText etPatronymicAnswer;
     private EditText etDateOfBirthAnswer;
     private EditText etPhoneNumberAnswer;
     private EditText etForumNicknameAnswer;
@@ -74,7 +77,9 @@ public class VolunteerProfileActivity extends AppCompatActivity implements EasyP
     private CheckBox cbSearchFormatInfo;
     private CheckBox cbSearchFormatResource;
     private Object[] data;
-    private SharedPreferences preferences;
+    private static final int VOLUNTEER_FOR_DB_PRIMARY_KEY_ID = 0;
+    private String volunteer_id;
+    private ProfileViewModel viewModel;
 
     private GoogleAccountCredential mCredential;
     private ProgressDialog mProgress;
@@ -83,8 +88,8 @@ public class VolunteerProfileActivity extends AppCompatActivity implements EasyP
     private static final int REQUEST_GOOGLE_PLAY_SERVICES = 1002;
     private static final int REQUEST_PERMISSION_GET_ACCOUNTS = 1003;
     private static final String PREF_ACCOUNT_NAME = "accountName";
-    private static final String[] SCOPES = { SheetsScopes.SPREADSHEETS };
-    private static final String SPREADSHEET_ID = "1KpDP1L-2cwhAd8-i_z-Ns16Fd9Zd7CxfXMUioJTXMnQ"; // ID гугл таблицы
+    private static final String[] SCOPES = {SheetsScopes.SPREADSHEETS};
+    private static final String SPREADSHEET_ID = ""; // ID гугл таблицы
     private static final String GOOGLE_SHEETS_TAB = "Anketa app!A2";
 
 
@@ -104,11 +109,11 @@ public class VolunteerProfileActivity extends AppCompatActivity implements EasyP
     }
 
     private void setDataToApi() {
-        if (! isGooglePlayServicesAvailable()) {
+        if (!isGooglePlayServicesAvailable()) {
             acquireGooglePlayServices();
         } else if (mCredential.getSelectedAccountName() == null) {
             chooseAccount();
-        } else if (! isDeviceOnline()) {
+        } else if (!isDeviceOnline()) {
             Toast.makeText(this, R.string.no_network, Toast.LENGTH_SHORT).show();
         } else {
             new MakeRequestTask(mCredential).execute();
@@ -154,17 +159,18 @@ public class VolunteerProfileActivity extends AppCompatActivity implements EasyP
      * Called when an activity launched here (specifically, AccountPicker
      * and authorization) exits, giving you the requestCode you started it with,
      * the resultCode it returned, and any additional data from it.
+     *
      * @param requestCode code indicating which activity result is incoming.
-     * @param resultCode code indicating the result of the incoming
-     *     activity result.
-     * @param data Intent (containing result data) returned by incoming
-     *     activity result.
+     * @param resultCode  code indicating the result of the incoming
+     *                    activity result.
+     * @param data        Intent (containing result data) returned by incoming
+     *                    activity result.
      */
     @Override
     protected void onActivityResult(
             int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch(requestCode) {
+        switch (requestCode) {
             case REQUEST_GOOGLE_PLAY_SERVICES:
                 if (resultCode != RESULT_OK) {
                     Toast.makeText(this, R.string.request_google_play_services, Toast.LENGTH_SHORT).show();
@@ -198,11 +204,12 @@ public class VolunteerProfileActivity extends AppCompatActivity implements EasyP
 
     /**
      * Respond to requests for permissions at runtime for API 23 and above.
-     * @param requestCode The request code passed in
-     *     requestPermissions(android.app.Activity, String, int, String[])
-     * @param permissions The requested permissions. Never null.
+     *
+     * @param requestCode  The request code passed in
+     *                     requestPermissions(android.app.Activity, String, int, String[])
+     * @param permissions  The requested permissions. Never null.
      * @param grantResults The grant results for the corresponding permissions
-     *     which is either PERMISSION_GRANTED or PERMISSION_DENIED. Never null.
+     *                     which is either PERMISSION_GRANTED or PERMISSION_DENIED. Never null.
      */
     @Override
     public void onRequestPermissionsResult(int requestCode,
@@ -216,9 +223,10 @@ public class VolunteerProfileActivity extends AppCompatActivity implements EasyP
     /**
      * Callback for when a permission is granted using the EasyPermissions
      * library.
+     *
      * @param requestCode The request code associated with the requested
-     *         permission
-     * @param list The requested permission list. Never null.
+     *                    permission
+     * @param list        The requested permission list. Never null.
      */
     @Override
     public void onPermissionsGranted(int requestCode, List<String> list) {
@@ -228,9 +236,10 @@ public class VolunteerProfileActivity extends AppCompatActivity implements EasyP
     /**
      * Callback for when a permission is denied using the EasyPermissions
      * library.
+     *
      * @param requestCode The request code associated with the requested
-     *         permission
-     * @param list The requested permission list. Never null.
+     *                    permission
+     * @param list        The requested permission list. Never null.
      */
     @Override
     public void onPermissionsDenied(int requestCode, List<String> list) {
@@ -239,8 +248,9 @@ public class VolunteerProfileActivity extends AppCompatActivity implements EasyP
 
     /**
      * Check that Google Play services APK is installed and up to date.
+     *
      * @return true if Google Play Services is available and up to
-     *     date on this device; false otherwise.
+     * date on this device; false otherwise.
      */
     private boolean isGooglePlayServicesAvailable() {
         GoogleApiAvailability apiAvailability =
@@ -267,8 +277,9 @@ public class VolunteerProfileActivity extends AppCompatActivity implements EasyP
     /**
      * Display an error dialog showing that Google Play Services is missing
      * or out of date.
+     *
      * @param connectionStatusCode code describing the presence (or lack of)
-     *     Google Play Services on this device.
+     *                             Google Play Services on this device.
      */
     void showGooglePlayServicesAvailabilityErrorDialog(
             final int connectionStatusCode) {
@@ -282,6 +293,7 @@ public class VolunteerProfileActivity extends AppCompatActivity implements EasyP
 
     /**
      * Checks whether the device currently has a network connection.
+     *
      * @return true if the device has a network connection, false otherwise.
      */
     private boolean isDeviceOnline() {
@@ -291,12 +303,14 @@ public class VolunteerProfileActivity extends AppCompatActivity implements EasyP
         return (networkInfo != null && networkInfo.isConnected());
     }
 
-    private void initializeElements(){
-        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+    private void initializeElements() {
+        viewModel = new ProfileViewModel(getApplication());
         data = new Object[16];
         mProgress = new ProgressDialog(this);
         mProgress.setMessage(getString(R.string.sending_request));
-        etFullNameAnswer = findViewById(R.id.etFullNameAnswer);
+        etSurnameAnswer = findViewById(R.id.etSurnameAnswer);
+        etNameAnswer = findViewById(R.id.etNameAnswer);
+        etPatronymicAnswer = findViewById(R.id.etPatronymicAnswer);
         etDateOfBirthAnswer = findViewById(R.id.etDateOfBirthAnswer);
         etPhoneNumberAnswer = findViewById(R.id.etPhoneNumberAnswer);
         etForumNicknameAnswer = findViewById(R.id.etForumNicknameAnswer);
@@ -313,15 +327,12 @@ public class VolunteerProfileActivity extends AppCompatActivity implements EasyP
         rbNoCar.setChecked(true);
         rbYesCar = findViewById(R.id.rbYesCar);
         etCar = findViewById(R.id.etCar);
-        rbYesCar.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    etCar.setVisibility(View.VISIBLE);
-                } else {
-                    etCar.setVisibility(View.INVISIBLE);
-                    etCar.setText("");
-                }
+        rbYesCar.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                etCar.setVisibility(View.VISIBLE);
+            } else {
+                etCar.setVisibility(View.GONE);
+                etCar.setText("");
             }
         });
         etOtherTech = findViewById(R.id.etOtherTech);
@@ -334,55 +345,70 @@ public class VolunteerProfileActivity extends AppCompatActivity implements EasyP
                 getApplicationContext(), Arrays.asList(SCOPES))
                 .setBackOff(new ExponentialBackOff());
 
-        etFullNameAnswer.setText(preferences.getString("fullName", ""));
-        etDateOfBirthAnswer.setText(preferences.getString("dateOfBirth", ""));
-        etPhoneNumberAnswer.setText(preferences.getString("phoneNumberProfile", ""));
-        etForumNicknameAnswer.setText(preferences.getString("forumNickName", ""));
-        etLinkToVKAnswer.setText(preferences.getString("linkToVk", ""));
-        etAddress.setText(preferences.getString("address", ""));
-        String pass = preferences.getString("passToSeversk", "");
-        if (!pass.isEmpty() && pass.equals(getString(R.string.yes))) {
+        fillTheViews();
+    }
+
+
+    private void fillTheViews() {
+        VolunteerForProfile volunteer = viewModel.getVolunteerForProfile();
+        if (volunteer != null) {
+            etSurnameAnswer.setText(volunteer.getSurname());
+            etNameAnswer.setText(volunteer.getName());
+            etPatronymicAnswer.setText(volunteer.getPatronymic());
+            etDateOfBirthAnswer.setText(volunteer.getDateOfBirth());
+            etPhoneNumberAnswer.setText(volunteer.getPhoneNumber());
+            etForumNicknameAnswer.setText(volunteer.getForumNickname());
+            etLinkToVKAnswer.setText(volunteer.getLinkToVK());
+            etAddress.setText(volunteer.getAddress());
+            String pass = volunteer.getPassToSeversk();
+            if (!pass.isEmpty() && pass.equals(getString(R.string.yes))) {
                 rbYesPassToSeversk.setChecked(true);
                 rbNoPassToSeversk.setChecked(false);
-        }
-        etPhoneNumberConfidant.setText(preferences.getString("phoneNumberConfidant", ""));
-        etSigns.setText(preferences.getString("signs", ""));
-        etSpecialSigns.setText(preferences.getString("specialSigns", ""));
-        etHealth.setText(preferences.getString("health", ""));
-        etOtherTech.setText(preferences.getString("otherTech", ""));
-        etEquipment.setText(preferences.getString("equipment", ""));
-        String car = preferences.getString("car", "");
-        if (!car.isEmpty()) {
-            rbYesCar.setChecked(true);
-            etCar.setText(car);
-        }
-        String searchFormat = preferences.getString("searchFormat", "");
-        if (!searchFormat.isEmpty()) {
-            String[] searchFormatArr = searchFormat.split("___");
-            for (String s : searchFormatArr) {
-                if (s.equals(getString(R.string.forest)))
+            }
+            etPhoneNumberConfidant.setText(volunteer.getPhoneNumberConfidant());
+            etSigns.setText(volunteer.getSigns());
+            etSpecialSigns.setText(volunteer.getSpecialSigns());
+            etHealth.setText(volunteer.getHealth());
+            etOtherTech.setText(volunteer.getOtherTech());
+            etEquipment.setText(volunteer.getEquipment());
+            String car = volunteer.getCar();
+            if (!car.isEmpty()) {
+                rbYesCar.setChecked(true);
+                etCar.setText(car);
+            }
+            String searchFormat = volunteer.getSearchFormat();
+            if (!searchFormat.isEmpty()) {
+                String[] searchFormatArr = searchFormat.split("___");
+                for (String s : searchFormatArr) {
+                    if (s.equals(getString(R.string.forest)))
                         cbSearchFormatForest.setChecked(true);
-                else if (s.equals(getString(R.string.city)))
+                    else if (s.equals(getString(R.string.city)))
                         cbSearchFormatCity.setChecked(true);
-                else if (s.equals(getString(R.string.info_search)))
+                    else if (s.equals(getString(R.string.info_search)))
                         cbSearchFormatInfo.setChecked(true);
-                else if (s.equals(getString(R.string.resource_help)))
+                    else if (s.equals(getString(R.string.resource_help)))
                         cbSearchFormatResource.setChecked(true);
                 }
             }
+        } else {
+            volunteer_id = UUID.randomUUID().toString();
         }
 
+    }
 
 
     private boolean getEnteredData() {
-        String fullName = etFullNameAnswer.getText().toString();
+        String surname = etSurnameAnswer.getText().toString();
+        String name = etNameAnswer.getText().toString();
+        String patronymic = etPatronymicAnswer.getText().toString();
+        String fullName = String.format("%s %s %s", surname, name, patronymic);
         String dateOfBirth = etDateOfBirthAnswer.getText().toString();
         String phoneNumber = etPhoneNumberAnswer.getText().toString();
         String forumNickname = etForumNicknameAnswer.getText().toString();
         String linkToVk = etLinkToVKAnswer.getText().toString();
         String address = etAddress.getText().toString();
 
-        if (fullName.isEmpty() || dateOfBirth.isEmpty() || phoneNumber.isEmpty() || address.isEmpty()) {
+        if (surname.isEmpty() || name.isEmpty() || patronymic.isEmpty() || dateOfBirth.isEmpty() || phoneNumber.isEmpty() || address.isEmpty()) {
             return false;
         }
 
@@ -398,7 +424,8 @@ public class VolunteerProfileActivity extends AppCompatActivity implements EasyP
         StringBuilder sb = new StringBuilder();
         if (cbSearchFormatForest.isChecked()) sb.append(getString(R.string.forest)).append("___");
         if (cbSearchFormatCity.isChecked()) sb.append(getString(R.string.city)).append("___");
-        if (cbSearchFormatInfo.isChecked()) sb.append(getString(R.string.info_search)).append("___");
+        if (cbSearchFormatInfo.isChecked())
+            sb.append(getString(R.string.info_search)).append("___");
         if (cbSearchFormatResource.isChecked()) sb.append(getString(R.string.resource_help));
         searchFormat = sb.toString();
         Date currentDate = new Date();
@@ -419,22 +446,10 @@ public class VolunteerProfileActivity extends AppCompatActivity implements EasyP
         data[13] = signs;
         data[14] = specialSigns;
         data[15] = health;
-        preferences.edit()
-                .putString("fullName", fullName)
-                .putString("dateOfBirth", dateOfBirth)
-                .putString("phoneNumberProfile", phoneNumber)
-                .putString("forumNickName", forumNickname)
-                .putString("linkToVk", linkToVk)
-                .putString("address", address)
-                .putString("car", car)
-                .putString("passToSeversk", passToSeversk)
-                .putString("searchFormat", searchFormat)
-                .putString("otherTech", otherTech)
-                .putString("equipment", equipment)
-                .putString("phoneNumberConfidant", phoneNumberConfidant)
-                .putString("signs", signs)
-                .putString("specialSigns", specialSigns)
-                .putString("health", health).apply();
+        VolunteerForProfile volunteer = new VolunteerForProfile(VOLUNTEER_FOR_DB_PRIMARY_KEY_ID, volunteer_id, surname, name, patronymic,
+                dateOfBirth, phoneNumber, forumNickname, linkToVk, address, passToSeversk, phoneNumberConfidant, signs, specialSigns, health,
+                otherTech, equipment, car, searchFormat);
+        viewModel.insertVolunteerForProfile(volunteer);
         return true;
     }
 
@@ -442,7 +457,7 @@ public class VolunteerProfileActivity extends AppCompatActivity implements EasyP
      * An asynchronous task that handles the Google Sheets API call.
      * Placing the API calls in their own task ensures the UI stays responsive.
      */
-    private class MakeRequestTask extends AsyncTask <Void, Void, Void> {
+    private class MakeRequestTask extends AsyncTask<Void, Void, Void> {
         private Sheets mService;
         private Exception mLastError = null;
 
@@ -458,6 +473,7 @@ public class VolunteerProfileActivity extends AppCompatActivity implements EasyP
 
         /**
          * Background task to call Google Sheets API.
+         *
          * @param params no parameters needed for this task.
          */
         @Override
@@ -476,6 +492,7 @@ public class VolunteerProfileActivity extends AppCompatActivity implements EasyP
          * Fetch a list of names and majors of students in a sample spreadsheet:
          * TestTable
          * https://docs.google.com/spreadsheets/d/17HH6oNL2XJ8_DnHJcLpY64v5gIASSLWxUslsWMonOfI/edit#gid=0
+         *
          * @throws IOException
          */
         private void setDataToApi() throws IOException {
@@ -514,7 +531,8 @@ public class VolunteerProfileActivity extends AppCompatActivity implements EasyP
                             VolunteerProfileActivity.REQUEST_AUTHORIZATION);
                 } else {
                     Toast.makeText(VolunteerProfileActivity.this, getString(R.string.error_occurred)
-                            + mLastError.getMessage(), Toast.LENGTH_SHORT).show();
+                            + mLastError, Toast.LENGTH_LONG).show();
+
                 }
             } else {
                 Toast.makeText(VolunteerProfileActivity.this, R.string.request_cancelled, Toast.LENGTH_SHORT).show();
