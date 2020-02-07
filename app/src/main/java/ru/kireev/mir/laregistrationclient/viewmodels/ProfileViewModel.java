@@ -1,14 +1,29 @@
 package ru.kireev.mir.laregistrationclient.viewmodels;
 
 import android.app.Application;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.AsyncTask;
+import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import ru.kireev.mir.laregistrationclient.R;
+import ru.kireev.mir.laregistrationclient.api.ApiFactory;
+import ru.kireev.mir.laregistrationclient.api.ApiService;
 import ru.kireev.mir.laregistrationclient.data.VolunteerDatabase;
+import ru.kireev.mir.laregistrationclient.pojo.VolunteerForMap;
 import ru.kireev.mir.laregistrationclient.pojo.VolunteerForProfile;
 
 public class ProfileViewModel extends AndroidViewModel {
@@ -32,6 +47,46 @@ public class ProfileViewModel extends AndroidViewModel {
 
     public void insertVolunteerForProfile(VolunteerForProfile volunteer){
         new InsertVolunteerForProfileTask().execute(volunteer);
+    }
+
+    public void sendInfoOnMap(String id, String firstName, String middleName, String lastName, String address, String phoneNumber, boolean withCar, boolean severskPass) {
+        Geocoder geocoder = new Geocoder(getApplication());
+        String latitude = "56.491787";
+        String longitude = "84.987642";
+        JSONObject geo = new JSONObject();
+        try {
+            Address result = geocoder.getFromLocationName(address, 2).get(0);
+            latitude = Double.toString(result.getLatitude());
+            longitude = Double.toString(result.getLongitude());
+            Log.i("response", latitude + " 61");
+            Log.i("response", longitude + " 62");
+
+        } catch (IOException ex) {
+            Toast.makeText(getApplication(), getApplication().getString(R.string.error_occurred) + ex, Toast.LENGTH_SHORT).show();
+            Log.i("response", ex.toString() + " 65");
+        }
+
+        try {
+            geo.put("lat", latitude).put("long", longitude);
+        } catch (JSONException ex) {
+            Toast.makeText(getApplication(), getApplication().getString(R.string.error_occurred) + ex + " 69", Toast.LENGTH_SHORT).show();
+        }
+
+        VolunteerForMap volunteerForMap = new VolunteerForMap(id, firstName, middleName, lastName, geo, phoneNumber, address, withCar, severskPass);
+        ApiFactory apiFactory = ApiFactory.getInstance();
+        ApiService apiService = apiFactory.getApiService();
+        apiService.postVolunteer(volunteerForMap).enqueue(new Callback<VolunteerForMap>() {
+            @Override
+            public void onResponse(Call<VolunteerForMap> call, Response<VolunteerForMap> response) {
+                Log.i("response", response.message() + " 78");
+            }
+
+            @Override
+            public void onFailure(Call<VolunteerForMap> call, Throwable t) {
+                Log.i("response", t.toString() + " 83");
+            }
+        });
+
     }
 
     private static class GetVolunteerForProfileTask extends AsyncTask<Void, Void, VolunteerForProfile>{

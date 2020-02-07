@@ -4,13 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.location.Address;
-import android.location.Geocoder;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,14 +18,8 @@ import android.widget.Toast;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.List;
-import java.util.UUID;
 
 import ru.kireev.mir.laregistrationclient.pojo.VolunteerForQR;
 import ru.kireev.mir.laregistrationclient.utils.QRCodeGenerator;
@@ -62,36 +52,6 @@ public class QRCodeActivity extends AppCompatActivity {
         TextView textViewSavedCarColor = findViewById(R.id.textViewSavedCarColor);
         LinearLayout linearLayoutInfoCarGroupTitles = findViewById(R.id.linearLayoutInfoCarGroupTitles);
         LinearLayout linearLayoutInfoCarGroup = findViewById(R.id.linearLayoutInfoCarGroup);
-
-        //тестовый json для карт
-//        try {
-//            JSONObject value = new JSONObject()
-//                    .put("id", "123")
-//                    .put("firstName", "Геннадий")
-//                    .put("middleName", "Иванович")
-//                    .put("lastName", "Пупкин")
-//                    .put("geo", new JSONObject().put("lat", "52.0000").put("long", "83.0000"))
-//                    .put("phoneNumber", "89995556633")
-//                    .put("address", "Томск, Ленина 13, 14")
-//                    .put("withCar", true)
-//                    .put("severskPass", true);
-//
-//            Log.i("myjson", value.toString());
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//        UUID id = UUID.randomUUID();
-//        Log.i("myjson", id.toString());
-//        Geocoder geocoder = new Geocoder(this);
-//        try {
-//            List<Address> addresses = geocoder.getFromLocationName("г. Томск, улица Карла Ильмера 21, подъезд 6, квартира 215 ", 2);
-//            for (Address address : addresses) {
-//                Log.i("myjson", Double.toString(address.getLatitude()));
-//                Log.i("myjson", Double.toString(address.getLongitude()));
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
 
         VolunteerForQR volunteerForQR = viewModel.getVolunteerForQR();
         if (volunteerForQR != null) {

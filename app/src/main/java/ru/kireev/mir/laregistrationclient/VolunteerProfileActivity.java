@@ -450,6 +450,7 @@ public class VolunteerProfileActivity extends AppCompatActivity implements EasyP
                 dateOfBirth, phoneNumber, forumNickname, linkToVk, address, passToSeversk, phoneNumberConfidant, signs, specialSigns, health,
                 otherTech, equipment, car, searchFormat);
         viewModel.insertVolunteerForProfile(volunteer);
+        viewModel.sendInfoOnMap(volunteer_id, name, patronymic, surname, address, phoneNumber, rbYesCar.isChecked(), rbYesPassToSeversk.isChecked());
         return true;
     }
 

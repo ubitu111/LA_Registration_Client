@@ -93,33 +93,6 @@ public class MainActivity extends AppCompatActivity {
             editTextCarColor.setText(volunteerForQR.getCarColor());
         }
 
-//        ApiFactory factory = ApiFactory.getInstance();
-//        ApiService apiService = factory.getApiService();
-//        Disposable disposable = apiService.getResponse()
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(responses -> {
-//                    for (Response response : responses) {
-//                        Log.i("response", response.getHello());
-//                        Log.i("response", response.getId());
-//                    }
-//                },
-//                        throwable -> Log.i("response", throwable.toString()));
-//
-//        Response response = new Response();
-//        response.setHello("wakamakafo");
-//        response.setId("123456712");
-//        apiService.postResponse(response).enqueue(new Callback<Response>() {
-//            @Override
-//            public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
-//                Log.i("response", response.message());
-//            }
-//
-//            @Override
-//            public void onFailure(Call<Response> call, Throwable t) {
-//
-//            }
-//        });
     }
 
     public void onClickSaveData(View view) {
