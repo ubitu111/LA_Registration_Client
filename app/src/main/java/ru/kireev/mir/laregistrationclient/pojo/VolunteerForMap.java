@@ -1,36 +1,41 @@
 package ru.kireev.mir.laregistrationclient.pojo;
 
-import org.json.JSONObject;
 
 public class VolunteerForMap {
-    private String id;
+    private String _id;
     private String firstName;
     private String middleName;
     private String lastName;
-    private JSONObject geo;
+    private String geo;
     private String phoneNumber;
     private String address;
+    private String linkToVK;
+    private String car;
     private boolean withCar;
     private boolean severskPass;
 
-    public VolunteerForMap(String id, String firstName, String middleName, String lastName, JSONObject geo, String phoneNumber, String address, boolean withCar, boolean severskPass) {
-        this.id = id;
+    public VolunteerForMap(String _id, String firstName, String middleName, String lastName,
+                           String geo, String phoneNumber, String address, String linkToVK,
+                           String car, boolean withCar, boolean severskPass) {
+        this._id = _id;
         this.firstName = firstName;
         this.middleName = middleName;
         this.lastName = lastName;
         this.geo = geo;
         this.phoneNumber = phoneNumber;
         this.address = address;
+        this.linkToVK = linkToVK;
+        this.car = car;
         this.withCar = withCar;
         this.severskPass = severskPass;
     }
 
-    public String getId() {
-        return id;
+    public String get_id() {
+        return _id;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void set_id(String _id) {
+        this._id = _id;
     }
 
     public String getFirstName() {
@@ -57,11 +62,11 @@ public class VolunteerForMap {
         this.lastName = lastName;
     }
 
-    public JSONObject getGeo() {
+    public String getGeo() {
         return geo;
     }
 
-    public void setGeo(JSONObject geo) {
+    public void setGeo(String geo) {
         this.geo = geo;
     }
 
@@ -79,6 +84,22 @@ public class VolunteerForMap {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getLinkToVK() {
+        return linkToVK;
+    }
+
+    public void setLinkToVK(String linkToVK) {
+        this.linkToVK = linkToVK;
+    }
+
+    public String getCar() {
+        return car;
+    }
+
+    public void setCar(String car) {
+        this.car = car;
     }
 
     public boolean isWithCar() {

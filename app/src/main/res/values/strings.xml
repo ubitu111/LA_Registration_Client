@@ -62,4 +62,8 @@
     <string name="info_about_car">Mark, model, registration number, color</string>
     <string name="back_to_exit">Click again to exit.</string>
     <string name="patronymic_name">Patronymic name</string>
+    <string name="city_village_etc">City, village, etc</string>
+    <string name="street_avenue_alley_tract_etc">Street (avenue, alley, tract, etc)</string>
+    <string name="number_of_house">Number of house</string>
+    <string name="number_of_room">Number of room</string>
 </resources>

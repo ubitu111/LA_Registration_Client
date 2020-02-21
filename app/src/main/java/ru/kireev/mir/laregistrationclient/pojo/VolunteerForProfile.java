@@ -15,7 +15,10 @@ public class VolunteerForProfile {
     private String phoneNumber;
     private String forumNickname;
     private String linkToVK;
-    private String address;
+    private String city;
+    private String street;
+    private String house;
+    private String room;
     private String passToSeversk;
     private String phoneNumberConfidant;
     private String signs;
@@ -26,10 +29,12 @@ public class VolunteerForProfile {
     private String car;
     private String searchFormat;
 
-    public VolunteerForProfile(int id, String volunteer_id, String surname, String name, String patronymic, String dateOfBirth,
-                               String phoneNumber, String forumNickname, String linkToVK, String address,
-                               String passToSeversk, String phoneNumberConfidant, String signs, String specialSigns,
-                               String health, String otherTech, String equipment, String car, String searchFormat) {
+    public VolunteerForProfile(int id, String volunteer_id, String surname, String name,
+                               String patronymic, String dateOfBirth, String phoneNumber,
+                               String forumNickname, String linkToVK, String city, String street,
+                               String house, String room, String passToSeversk, String phoneNumberConfidant,
+                               String signs, String specialSigns, String health, String otherTech,
+                               String equipment, String car, String searchFormat) {
         this.id = id;
         this.volunteer_id = volunteer_id;
         this.surname = surname;
@@ -39,7 +44,10 @@ public class VolunteerForProfile {
         this.phoneNumber = phoneNumber;
         this.forumNickname = forumNickname;
         this.linkToVK = linkToVK;
-        this.address = address;
+        this.city = city;
+        this.street = street;
+        this.house = house;
+        this.room = room;
         this.passToSeversk = passToSeversk;
         this.phoneNumberConfidant = phoneNumberConfidant;
         this.signs = signs;
@@ -51,20 +59,20 @@ public class VolunteerForProfile {
         this.searchFormat = searchFormat;
     }
 
-    public String getVolunteer_id() {
-        return volunteer_id;
-    }
-
-    public void setVolunteer_id(String volunteer_id) {
-        this.volunteer_id = volunteer_id;
-    }
-
     public int getId() {
         return id;
     }
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getVolunteer_id() {
+        return volunteer_id;
+    }
+
+    public void setVolunteer_id(String volunteer_id) {
+        this.volunteer_id = volunteer_id;
     }
 
     public String getSurname() {
@@ -123,12 +131,36 @@ public class VolunteerForProfile {
         this.linkToVK = linkToVK;
     }
 
-    public String getAddress() {
-        return address;
+    public String getCity() {
+        return city;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public String getHouse() {
+        return house;
+    }
+
+    public void setHouse(String house) {
+        this.house = house;
+    }
+
+    public String getRoom() {
+        return room;
+    }
+
+    public void setRoom(String room) {
+        this.room = room;
     }
 
     public String getPassToSeversk() {

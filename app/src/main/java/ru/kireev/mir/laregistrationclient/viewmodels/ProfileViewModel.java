@@ -49,7 +49,9 @@ public class ProfileViewModel extends AndroidViewModel {
         new InsertVolunteerForProfileTask().execute(volunteer);
     }
 
-    public void sendInfoOnMap(String id, String firstName, String middleName, String lastName, String address, String phoneNumber, boolean withCar, boolean severskPass) {
+    public void sendInfoOnMap(String id, String firstName, String middleName, String lastName,
+                              String address, String phoneNumber, String linkToVK,
+                              String car, boolean withCar, boolean severskPass) {
         Geocoder geocoder = new Geocoder(getApplication());
         String latitude = "56.491787";
         String longitude = "84.987642";
@@ -58,27 +60,29 @@ public class ProfileViewModel extends AndroidViewModel {
             Address result = geocoder.getFromLocationName(address, 2).get(0);
             latitude = Double.toString(result.getLatitude());
             longitude = Double.toString(result.getLongitude());
-            Log.i("response", latitude + " 61");
-            Log.i("response", longitude + " 62");
 
         } catch (IOException ex) {
             Toast.makeText(getApplication(), getApplication().getString(R.string.error_occurred) + ex, Toast.LENGTH_SHORT).show();
-            Log.i("response", ex.toString() + " 65");
+        } catch (IndexOutOfBoundsException e) {
+            Toast.makeText(getApplication(), getApplication().getString(R.string.error_occurred) + e, Toast.LENGTH_SHORT).show();
         }
 
         try {
             geo.put("lat", latitude).put("long", longitude);
         } catch (JSONException ex) {
-            Toast.makeText(getApplication(), getApplication().getString(R.string.error_occurred) + ex + " 69", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplication(), getApplication().getString(R.string.error_occurred) + ex, Toast.LENGTH_SHORT).show();
         }
 
-        VolunteerForMap volunteerForMap = new VolunteerForMap(id, firstName, middleName, lastName, geo, phoneNumber, address, withCar, severskPass);
+        VolunteerForMap volunteerForMap = new VolunteerForMap(id, firstName, middleName, lastName,
+                geo.toString(), phoneNumber, address, linkToVK, car, withCar, severskPass);
         ApiFactory apiFactory = ApiFactory.getInstance();
         ApiService apiService = apiFactory.getApiService();
         apiService.postVolunteer(volunteerForMap).enqueue(new Callback<VolunteerForMap>() {
             @Override
             public void onResponse(Call<VolunteerForMap> call, Response<VolunteerForMap> response) {
-                Log.i("response", response.message() + " 78");
+                Log.i("response", response.errorBody() + response.message() + " 78");
+                Log.i("response", geo.toString() + " 78");
+
             }
 
             @Override

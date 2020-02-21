@@ -63,4 +63,8 @@
     <string name="info_about_car">Марка, модель, госномер, цвет</string>
     <string name="back_to_exit">Нажмите еще раз для выхода</string>
     <string name="patronymic_name">Отчество</string>
+    <string name="city_village_etc">Город, поселок и тд</string>
+    <string name="number_of_house">Номер дома</string>
+    <string name="number_of_room">Номер квартиры</string>
+    <string name="street_avenue_alley_tract_etc">Улица (проспект,  переулок, тракт)</string>
 </resources>

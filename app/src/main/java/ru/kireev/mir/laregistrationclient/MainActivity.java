@@ -2,6 +2,7 @@ package ru.kireev.mir.laregistrationclient;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -79,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                 editTextCarColor.setVisibility(View.GONE);
             }
         });
-        viewModel = new MainQRViewModel(getApplication());
+        viewModel = new ViewModelProvider.AndroidViewModelFactory(getApplication()).create(MainQRViewModel.class);
         VolunteerForQR volunteerForQR = viewModel.getVolunteerForQR();
         if (volunteerForQR != null) {
             editTextName.setText(volunteerForQR.getName());

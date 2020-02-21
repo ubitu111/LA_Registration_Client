@@ -2,6 +2,7 @@ package ru.kireev.mir.laregistrationclient;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
 import android.accounts.Account;
@@ -15,6 +16,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -60,7 +62,10 @@ public class VolunteerProfileActivity extends AppCompatActivity implements EasyP
     private EditText etPhoneNumberAnswer;
     private EditText etForumNicknameAnswer;
     private EditText etLinkToVKAnswer;
-    private EditText etAddress;
+    private EditText etCity;
+    private EditText etStreet;
+    private EditText etHouse;
+    private EditText etRoom;
     private RadioButton rbYesPassToSeversk;
     private RadioButton rbNoPassToSeversk;
     private EditText etPhoneNumberConfidant;
@@ -91,6 +96,7 @@ public class VolunteerProfileActivity extends AppCompatActivity implements EasyP
     private static final String[] SCOPES = {SheetsScopes.SPREADSHEETS};
     private static final String SPREADSHEET_ID = ""; // ID гугл таблицы
     private static final String GOOGLE_SHEETS_TAB = "Anketa app!A2";
+    private static final String DELIMITER_FOR_SEARCH_FORMAT = " ; ";
 
 
     @Override
@@ -304,7 +310,7 @@ public class VolunteerProfileActivity extends AppCompatActivity implements EasyP
     }
 
     private void initializeElements() {
-        viewModel = new ProfileViewModel(getApplication());
+        viewModel = new ViewModelProvider.AndroidViewModelFactory(getApplication()).create(ProfileViewModel.class);
         data = new Object[16];
         mProgress = new ProgressDialog(this);
         mProgress.setMessage(getString(R.string.sending_request));
@@ -315,7 +321,10 @@ public class VolunteerProfileActivity extends AppCompatActivity implements EasyP
         etPhoneNumberAnswer = findViewById(R.id.etPhoneNumberAnswer);
         etForumNicknameAnswer = findViewById(R.id.etForumNicknameAnswer);
         etLinkToVKAnswer = findViewById(R.id.etLinkToVKAnswer);
-        etAddress = findViewById(R.id.etAddress);
+        etCity = findViewById(R.id.etCity);
+        etStreet = findViewById(R.id.etStreet);
+        etHouse = findViewById(R.id.etHouse);
+        etRoom = findViewById(R.id.etRoom);
         rbYesPassToSeversk = findViewById(R.id.rbYesPassToSeversk);
         rbNoPassToSeversk = findViewById(R.id.rbNoPassToSeversk);
         rbNoPassToSeversk.setChecked(true);
@@ -359,7 +368,10 @@ public class VolunteerProfileActivity extends AppCompatActivity implements EasyP
             etPhoneNumberAnswer.setText(volunteer.getPhoneNumber());
             etForumNicknameAnswer.setText(volunteer.getForumNickname());
             etLinkToVKAnswer.setText(volunteer.getLinkToVK());
-            etAddress.setText(volunteer.getAddress());
+            etCity.setText(volunteer.getCity());
+            etStreet.setText(volunteer.getStreet());
+            etHouse.setText(volunteer.getHouse());
+            etRoom.setText(volunteer.getRoom());
             String pass = volunteer.getPassToSeversk();
             if (!pass.isEmpty() && pass.equals(getString(R.string.yes))) {
                 rbYesPassToSeversk.setChecked(true);
@@ -378,7 +390,7 @@ public class VolunteerProfileActivity extends AppCompatActivity implements EasyP
             }
             String searchFormat = volunteer.getSearchFormat();
             if (!searchFormat.isEmpty()) {
-                String[] searchFormatArr = searchFormat.split("___");
+                String[] searchFormatArr = searchFormat.split(DELIMITER_FOR_SEARCH_FORMAT);
                 for (String s : searchFormatArr) {
                     if (s.equals(getString(R.string.forest)))
                         cbSearchFormatForest.setChecked(true);
@@ -390,8 +402,11 @@ public class VolunteerProfileActivity extends AppCompatActivity implements EasyP
                         cbSearchFormatResource.setChecked(true);
                 }
             }
+            volunteer_id = volunteer.getVolunteer_id();
+            Log.i("response", volunteer_id + " old");
         } else {
             volunteer_id = UUID.randomUUID().toString();
+            Log.i("response", volunteer_id + " new");
         }
 
     }
@@ -406,12 +421,16 @@ public class VolunteerProfileActivity extends AppCompatActivity implements EasyP
         String phoneNumber = etPhoneNumberAnswer.getText().toString();
         String forumNickname = etForumNicknameAnswer.getText().toString();
         String linkToVk = etLinkToVKAnswer.getText().toString();
-        String address = etAddress.getText().toString();
+        String city = etCity.getText().toString();
+        String street = etStreet.getText().toString();
+        String house = etHouse.getText().toString();
+        String room = etRoom.getText().toString();
 
-        if (surname.isEmpty() || name.isEmpty() || patronymic.isEmpty() || dateOfBirth.isEmpty() || phoneNumber.isEmpty() || address.isEmpty()) {
+        if (surname.isEmpty() || name.isEmpty() || patronymic.isEmpty() || dateOfBirth.isEmpty() || phoneNumber.isEmpty()
+                || city.isEmpty() || street.isEmpty() || house.isEmpty() || room.isEmpty()) {
             return false;
         }
-
+        String address = String.format("%s, %s, %s, %s", city, street, house, room);
         String passToSeversk = rbYesPassToSeversk.isChecked() ? getString(R.string.yes) : getString(R.string.no);
         String phoneNumberConfidant = etPhoneNumberConfidant.getText().toString();
         String signs = etSigns.getText().toString();
@@ -422,10 +441,10 @@ public class VolunteerProfileActivity extends AppCompatActivity implements EasyP
         String equipment = etEquipment.getText().toString();
         String searchFormat;
         StringBuilder sb = new StringBuilder();
-        if (cbSearchFormatForest.isChecked()) sb.append(getString(R.string.forest)).append("___");
-        if (cbSearchFormatCity.isChecked()) sb.append(getString(R.string.city)).append("___");
+        if (cbSearchFormatForest.isChecked()) sb.append(getString(R.string.forest)).append(DELIMITER_FOR_SEARCH_FORMAT);
+        if (cbSearchFormatCity.isChecked()) sb.append(getString(R.string.city)).append(DELIMITER_FOR_SEARCH_FORMAT);
         if (cbSearchFormatInfo.isChecked())
-            sb.append(getString(R.string.info_search)).append("___");
+            sb.append(getString(R.string.info_search)).append(DELIMITER_FOR_SEARCH_FORMAT);
         if (cbSearchFormatResource.isChecked()) sb.append(getString(R.string.resource_help));
         searchFormat = sb.toString();
         Date currentDate = new Date();
@@ -447,10 +466,12 @@ public class VolunteerProfileActivity extends AppCompatActivity implements EasyP
         data[14] = specialSigns;
         data[15] = health;
         VolunteerForProfile volunteer = new VolunteerForProfile(VOLUNTEER_FOR_DB_PRIMARY_KEY_ID, volunteer_id, surname, name, patronymic,
-                dateOfBirth, phoneNumber, forumNickname, linkToVk, address, passToSeversk, phoneNumberConfidant, signs, specialSigns, health,
+                dateOfBirth, phoneNumber, forumNickname, linkToVk, city, street, house, room, passToSeversk, phoneNumberConfidant, signs, specialSigns, health,
                 otherTech, equipment, car, searchFormat);
         viewModel.insertVolunteerForProfile(volunteer);
-        viewModel.sendInfoOnMap(volunteer_id, name, patronymic, surname, address, phoneNumber, rbYesCar.isChecked(), rbYesPassToSeversk.isChecked());
+        Log.i("response", volunteer_id + " old send");
+        viewModel.sendInfoOnMap(volunteer_id, name, patronymic, surname, address, phoneNumber,
+                linkToVk, car, rbYesCar.isChecked(), rbYesPassToSeversk.isChecked());
         return true;
     }
 

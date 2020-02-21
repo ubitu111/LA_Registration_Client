@@ -9,7 +9,7 @@ import androidx.room.RoomDatabase;
 import ru.kireev.mir.laregistrationclient.pojo.VolunteerForProfile;
 import ru.kireev.mir.laregistrationclient.pojo.VolunteerForQR;
 
-@Database(entities = {VolunteerForQR.class, VolunteerForProfile.class}, version = 3, exportSchema = false)
+@Database(entities = {VolunteerForQR.class, VolunteerForProfile.class}, version = 5, exportSchema = false)
 public abstract class VolunteerDatabase extends RoomDatabase {
     private static VolunteerDatabase database;
     private static final String DB_NAME = "volunteer.db";

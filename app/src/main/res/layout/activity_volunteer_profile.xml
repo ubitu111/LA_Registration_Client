@@ -107,14 +107,14 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <EditText
-                    android:id="@+id/etSurnameAnswer"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/surname"
-                    android:inputType="textPersonName"
-                    android:textSize="14sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvFullName" />
+                        android:id="@+id/etSurnameAnswer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/surname"
+                        android:inputType="textPersonName"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvFullName" />
 
                     <EditText
                         android:id="@+id/etNameAnswer"
@@ -343,14 +343,44 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <EditText
-                        android:id="@+id/etAddress"
+                        android:id="@+id/etCity"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/my_answer"
+                        android:hint="@string/city_village_etc"
                         android:inputType="text"
                         android:textSize="14sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tvAddress" />
+
+                    <EditText
+                        android:id="@+id/etStreet"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/street_avenue_alley_tract_etc"
+                        android:inputType="text"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/etCity" />
+
+                    <EditText
+                        android:id="@+id/etHouse"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/number_of_house"
+                        android:inputType="text"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/etStreet" />
+
+                    <EditText
+                        android:id="@+id/etRoom"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/number_of_room"
+                        android:inputType="text"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/etHouse" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
 
@@ -592,10 +622,10 @@
                         android:id="@+id/etCar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:hint="@string/info_about_car"
                         android:inputType="text"
                         android:textSize="14sp"
                         android:visibility="gone"
-                        android:hint="@string/info_about_car"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/rgCar" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -738,8 +768,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:text="@string/send_profile"
                 android:onClick="onClickSendProfile"
+                android:text="@string/send_profile"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cvSearchFormat" />
