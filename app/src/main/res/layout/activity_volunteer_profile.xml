@@ -763,7 +763,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
 
-            <com.google.android.material.button.MaterialButton
+            <Button
                 android:id="@+id/bSendProfile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -66,4 +66,5 @@
     <string name="street_avenue_alley_tract_etc">Street (avenue, alley, tract, etc)</string>
     <string name="number_of_house">Number of house</string>
     <string name="number_of_room">Number of room</string>
+    <string name="error_occured_address_to_geo">Error converting addresses to coordinates</string>
 </resources>

@@ -62,9 +62,9 @@ public class ProfileViewModel extends AndroidViewModel {
             longitude = Double.toString(result.getLongitude());
 
         } catch (IOException ex) {
-            Toast.makeText(getApplication(), getApplication().getString(R.string.error_occurred) + ex, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplication(), getApplication().getString(R.string.error_occured_address_to_geo) + ex, Toast.LENGTH_SHORT).show();
         } catch (IndexOutOfBoundsException e) {
-            Toast.makeText(getApplication(), getApplication().getString(R.string.error_occurred) + e, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplication(), getApplication().getString(R.string.error_occured_address_to_geo) + e, Toast.LENGTH_SHORT).show();
         }
 
         try {

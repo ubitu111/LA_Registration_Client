@@ -1,44 +1,37 @@
 package ru.kireev.mir.laregistrationclient;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.Manifest;
 import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.Toast;
 
-import com.google.android.gms.common.ConnectionResult;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+
+import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GooglePlayServicesAvailabilityIOException;
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
-
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.ExponentialBackOff;
-
 import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.SheetsScopes;
-
-import com.google.api.services.sheets.v4.model.*;
+import com.google.api.services.sheets.v4.model.ValueRange;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -51,108 +44,108 @@ import java.util.UUID;
 
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
+import ru.kireev.mir.laregistrationclient.databinding.ActivityVolunteerProfileBinding;
 import ru.kireev.mir.laregistrationclient.pojo.VolunteerForProfile;
 import ru.kireev.mir.laregistrationclient.viewmodels.ProfileViewModel;
 
 public class VolunteerProfileActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
-    private EditText etSurnameAnswer;
-    private EditText etNameAnswer;
-    private EditText etPatronymicAnswer;
-    private EditText etDateOfBirthAnswer;
-    private EditText etPhoneNumberAnswer;
-    private EditText etForumNicknameAnswer;
-    private EditText etLinkToVKAnswer;
-    private EditText etCity;
-    private EditText etStreet;
-    private EditText etHouse;
-    private EditText etRoom;
-    private RadioButton rbYesPassToSeversk;
-    private RadioButton rbNoPassToSeversk;
-    private EditText etPhoneNumberConfidant;
-    private EditText etSigns;
-    private EditText etSpecialSigns;
-    private EditText etHealth;
-    private RadioButton rbNoCar;
-    private RadioButton rbYesCar;
-    private EditText etCar;
-    private EditText etOtherTech;
-    private EditText etEquipment;
-    private CheckBox cbSearchFormatForest;
-    private CheckBox cbSearchFormatCity;
-    private CheckBox cbSearchFormatInfo;
-    private CheckBox cbSearchFormatResource;
+
     private Object[] data;
     private static final int VOLUNTEER_FOR_DB_PRIMARY_KEY_ID = 0;
     private String volunteer_id;
     private ProfileViewModel viewModel;
-
+    private ActivityVolunteerProfileBinding binding;
     private GoogleAccountCredential mCredential;
     private ProgressDialog mProgress;
-    private static final int REQUEST_ACCOUNT_PICKER = 1000;
+//    private static final int REQUEST_ACCOUNT_PICKER = 1000;
     private static final int REQUEST_AUTHORIZATION = 1001;
     private static final int REQUEST_GOOGLE_PLAY_SERVICES = 1002;
     private static final int REQUEST_PERMISSION_GET_ACCOUNTS = 1003;
-    private static final String PREF_ACCOUNT_NAME = "accountName";
+//    private static final String PREF_ACCOUNT_NAME = "accountName";
     private static final String[] SCOPES = {SheetsScopes.SPREADSHEETS};
     private static final String SPREADSHEET_ID = ""; // ID гугл таблицы
     private static final String GOOGLE_SHEETS_TAB = "Anketa app!A2";
     private static final String DELIMITER_FOR_SEARCH_FORMAT = " ; ";
+    private static final int RC_SIGN_IN = 100;
+    private FirebaseAuth mAuth;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_volunteer_profile);
+        binding = ActivityVolunteerProfileBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
         initializeElements();
+
     }
 
     public void onClickSendProfile(View view) {
+        //v2
         if (getEnteredData()) {
-            setDataToApi();
-        } else {
+            sendDataToSheets();
+        }
+        else {
             Toast.makeText(this, R.string.fill_all_fields_with_asterisk, Toast.LENGTH_SHORT).show();
         }
+
     }
 
-    private void setDataToApi() {
-        if (!isGooglePlayServicesAvailable()) {
-            acquireGooglePlayServices();
-        } else if (mCredential.getSelectedAccountName() == null) {
-            chooseAccount();
-        } else if (!isDeviceOnline()) {
+    private void sendDataToSheets(){
+        if (!isDeviceOnline()) {
             Toast.makeText(this, R.string.no_network, Toast.LENGTH_SHORT).show();
-        } else {
+        }
+        else if (mCredential.getSelectedAccountName() == null) {
+            chooseAccount();
+        }
+        else{
             new MakeRequestTask(mCredential).execute();
+        }
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == RC_SIGN_IN) {
+
+            if (resultCode == RESULT_OK) {
+                // Successfully signed in
+                sendDataToSheets();
+                // ...
+            } else {
+                // Sign in failed. If response is null the user canceled the
+                // sign-in flow using the back button. Otherwise check
+                // response.getError().getErrorCode() and handle the error.
+                // ...
+            }
         }
     }
 
-    /**
-     * Attempts to set the account used with the API credentials. If an account
-     * name was previously saved it will use that one; otherwise an account
-     * picker dialog will be shown to the user. Note that the setting the
-     * account to use with the credentials object requires the app to have the
-     * GET_ACCOUNTS permission, which is requested here if it is not already
-     * present. The AfterPermissionGranted annotation indicates that this
-     * function will be rerun automatically whenever the GET_ACCOUNTS permission
-     * is granted.
-     */
+
     @AfterPermissionGranted(REQUEST_PERMISSION_GET_ACCOUNTS)
-    private void chooseAccount() {
-        if (EasyPermissions.hasPermissions(
-                this, Manifest.permission.GET_ACCOUNTS)) {
-            String accountName = getPreferences(Context.MODE_PRIVATE)
-                    .getString(PREF_ACCOUNT_NAME, null);
-            if (accountName != null) {
-                mCredential.setSelectedAccount(new Account(accountName, getPackageName()));
-                setDataToApi();
-            } else {
-                // Start a dialog from which the user can choose an account
-                startActivityForResult(
-                        mCredential.newChooseAccountIntent(),
-                        REQUEST_ACCOUNT_PICKER);
+    private void chooseAccount(){
+        if (EasyPermissions.hasPermissions(this, Manifest.permission.GET_ACCOUNTS)){
+            if (mAuth.getCurrentUser() != null) {
+                mCredential.setSelectedAccount(new Account(mAuth.getCurrentUser().getEmail(), getPackageName()));
+                sendDataToSheets();
             }
-        } else {
-            // Request the GET_ACCOUNTS permission via a user dialog
+            else {
+                List<AuthUI.IdpConfig> providers = Arrays.asList(
+                        new AuthUI.IdpConfig.GoogleBuilder().build());
+
+                startActivityForResult(
+                        AuthUI.getInstance()
+                                .createSignInIntentBuilder()
+                                .setAvailableProviders(providers)
+                                .setIsSmartLockEnabled(false)
+                                .setLogo(R.drawable.logo)
+                                .build(),
+                        RC_SIGN_IN);
+            }
+        }
+        else {
             EasyPermissions.requestPermissions(
                     this,
                     getString(R.string.request_google_acc),
@@ -161,52 +154,6 @@ public class VolunteerProfileActivity extends AppCompatActivity implements EasyP
         }
     }
 
-    /**
-     * Called when an activity launched here (specifically, AccountPicker
-     * and authorization) exits, giving you the requestCode you started it with,
-     * the resultCode it returned, and any additional data from it.
-     *
-     * @param requestCode code indicating which activity result is incoming.
-     * @param resultCode  code indicating the result of the incoming
-     *                    activity result.
-     * @param data        Intent (containing result data) returned by incoming
-     *                    activity result.
-     */
-    @Override
-    protected void onActivityResult(
-            int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case REQUEST_GOOGLE_PLAY_SERVICES:
-                if (resultCode != RESULT_OK) {
-                    Toast.makeText(this, R.string.request_google_play_services, Toast.LENGTH_SHORT).show();
-                } else {
-                    setDataToApi();
-                }
-                break;
-            case REQUEST_ACCOUNT_PICKER:
-                if (resultCode == RESULT_OK && data != null &&
-                        data.getExtras() != null) {
-                    String accountName =
-                            data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
-                    if (accountName != null) {
-                        SharedPreferences settings =
-                                getPreferences(Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = settings.edit();
-                        editor.putString(PREF_ACCOUNT_NAME, accountName);
-                        editor.apply();
-                        mCredential.setSelectedAccountName(accountName);
-                        setDataToApi();
-                    }
-                }
-                break;
-            case REQUEST_AUTHORIZATION:
-                if (resultCode == RESULT_OK) {
-                    setDataToApi();
-                }
-                break;
-        }
-    }
 
     /**
      * Respond to requests for permissions at runtime for API 23 and above.
@@ -252,33 +199,6 @@ public class VolunteerProfileActivity extends AppCompatActivity implements EasyP
         // Do nothing.
     }
 
-    /**
-     * Check that Google Play services APK is installed and up to date.
-     *
-     * @return true if Google Play Services is available and up to
-     * date on this device; false otherwise.
-     */
-    private boolean isGooglePlayServicesAvailable() {
-        GoogleApiAvailability apiAvailability =
-                GoogleApiAvailability.getInstance();
-        final int connectionStatusCode =
-                apiAvailability.isGooglePlayServicesAvailable(this);
-        return connectionStatusCode == ConnectionResult.SUCCESS;
-    }
-
-    /**
-     * Attempt to resolve a missing, out-of-date, invalid or disabled Google
-     * Play Services installation via a user dialog, if possible.
-     */
-    private void acquireGooglePlayServices() {
-        GoogleApiAvailability apiAvailability =
-                GoogleApiAvailability.getInstance();
-        final int connectionStatusCode =
-                apiAvailability.isGooglePlayServicesAvailable(this);
-        if (apiAvailability.isUserResolvableError(connectionStatusCode)) {
-            showGooglePlayServicesAvailabilityErrorDialog(connectionStatusCode);
-        }
-    }
 
     /**
      * Display an error dialog showing that Google Play Services is missing
@@ -314,46 +234,20 @@ public class VolunteerProfileActivity extends AppCompatActivity implements EasyP
         data = new Object[16];
         mProgress = new ProgressDialog(this);
         mProgress.setMessage(getString(R.string.sending_request));
-        etSurnameAnswer = findViewById(R.id.etSurnameAnswer);
-        etNameAnswer = findViewById(R.id.etNameAnswer);
-        etPatronymicAnswer = findViewById(R.id.etPatronymicAnswer);
-        etDateOfBirthAnswer = findViewById(R.id.etDateOfBirthAnswer);
-        etPhoneNumberAnswer = findViewById(R.id.etPhoneNumberAnswer);
-        etForumNicknameAnswer = findViewById(R.id.etForumNicknameAnswer);
-        etLinkToVKAnswer = findViewById(R.id.etLinkToVKAnswer);
-        etCity = findViewById(R.id.etCity);
-        etStreet = findViewById(R.id.etStreet);
-        etHouse = findViewById(R.id.etHouse);
-        etRoom = findViewById(R.id.etRoom);
-        rbYesPassToSeversk = findViewById(R.id.rbYesPassToSeversk);
-        rbNoPassToSeversk = findViewById(R.id.rbNoPassToSeversk);
-        rbNoPassToSeversk.setChecked(true);
-        etPhoneNumberConfidant = findViewById(R.id.etPhoneNumberConfidant);
-        etSigns = findViewById(R.id.etSigns);
-        etSpecialSigns = findViewById(R.id.etSpecialSigns);
-        etHealth = findViewById(R.id.etHealth);
-        rbNoCar = findViewById(R.id.rbNoCar);
-        rbNoCar.setChecked(true);
-        rbYesCar = findViewById(R.id.rbYesCar);
-        etCar = findViewById(R.id.etCar);
-        rbYesCar.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        binding.rbNoPassToSeversk.setChecked(true);
+        binding.rbNoCar.setChecked(true);
+        binding.rbYesCar.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
-                etCar.setVisibility(View.VISIBLE);
+                binding.etCar.setVisibility(View.VISIBLE);
             } else {
-                etCar.setVisibility(View.GONE);
-                etCar.setText("");
+                binding.etCar.setVisibility(View.GONE);
+                binding.etCar.setText("");
             }
         });
-        etOtherTech = findViewById(R.id.etOtherTech);
-        etEquipment = findViewById(R.id.etEquipment);
-        cbSearchFormatForest = findViewById(R.id.cbSearchFormatForest);
-        cbSearchFormatCity = findViewById(R.id.cbSearchFormatCity);
-        cbSearchFormatInfo = findViewById(R.id.cbSearchFormatInfo);
-        cbSearchFormatResource = findViewById(R.id.cbSearchFormatResource);
         mCredential = GoogleAccountCredential.usingOAuth2(
                 getApplicationContext(), Arrays.asList(SCOPES))
                 .setBackOff(new ExponentialBackOff());
-
+        mAuth = FirebaseAuth.getInstance();
         fillTheViews();
     }
 
@@ -361,45 +255,45 @@ public class VolunteerProfileActivity extends AppCompatActivity implements EasyP
     private void fillTheViews() {
         VolunteerForProfile volunteer = viewModel.getVolunteerForProfile();
         if (volunteer != null) {
-            etSurnameAnswer.setText(volunteer.getSurname());
-            etNameAnswer.setText(volunteer.getName());
-            etPatronymicAnswer.setText(volunteer.getPatronymic());
-            etDateOfBirthAnswer.setText(volunteer.getDateOfBirth());
-            etPhoneNumberAnswer.setText(volunteer.getPhoneNumber());
-            etForumNicknameAnswer.setText(volunteer.getForumNickname());
-            etLinkToVKAnswer.setText(volunteer.getLinkToVK());
-            etCity.setText(volunteer.getCity());
-            etStreet.setText(volunteer.getStreet());
-            etHouse.setText(volunteer.getHouse());
-            etRoom.setText(volunteer.getRoom());
+            binding.etSurnameAnswer.setText(volunteer.getSurname());
+            binding.etNameAnswer.setText(volunteer.getName());
+            binding.etPatronymicAnswer.setText(volunteer.getPatronymic());
+            binding.etDateOfBirthAnswer.setText(volunteer.getDateOfBirth());
+            binding.etPhoneNumberAnswer.setText(volunteer.getPhoneNumber());
+            binding.etForumNicknameAnswer.setText(volunteer.getForumNickname());
+            binding.etLinkToVKAnswer.setText(volunteer.getLinkToVK());
+            binding.etCity.setText(volunteer.getCity());
+            binding.etStreet.setText(volunteer.getStreet());
+            binding.etHouse.setText(volunteer.getHouse());
+            binding.etRoom.setText(volunteer.getRoom());
             String pass = volunteer.getPassToSeversk();
             if (!pass.isEmpty() && pass.equals(getString(R.string.yes))) {
-                rbYesPassToSeversk.setChecked(true);
-                rbNoPassToSeversk.setChecked(false);
+                binding.rbYesPassToSeversk.setChecked(true);
+                binding.rbNoPassToSeversk.setChecked(false);
             }
-            etPhoneNumberConfidant.setText(volunteer.getPhoneNumberConfidant());
-            etSigns.setText(volunteer.getSigns());
-            etSpecialSigns.setText(volunteer.getSpecialSigns());
-            etHealth.setText(volunteer.getHealth());
-            etOtherTech.setText(volunteer.getOtherTech());
-            etEquipment.setText(volunteer.getEquipment());
+            binding.etPhoneNumberConfidant.setText(volunteer.getPhoneNumberConfidant());
+            binding.etSigns.setText(volunteer.getSigns());
+            binding.etSpecialSigns.setText(volunteer.getSpecialSigns());
+            binding.etHealth.setText(volunteer.getHealth());
+            binding.etOtherTech.setText(volunteer.getOtherTech());
+            binding.etEquipment.setText(volunteer.getEquipment());
             String car = volunteer.getCar();
             if (!car.isEmpty()) {
-                rbYesCar.setChecked(true);
-                etCar.setText(car);
+                binding.rbYesCar.setChecked(true);
+                binding.etCar.setText(car);
             }
             String searchFormat = volunteer.getSearchFormat();
             if (!searchFormat.isEmpty()) {
                 String[] searchFormatArr = searchFormat.split(DELIMITER_FOR_SEARCH_FORMAT);
                 for (String s : searchFormatArr) {
                     if (s.equals(getString(R.string.forest)))
-                        cbSearchFormatForest.setChecked(true);
+                        binding.cbSearchFormatForest.setChecked(true);
                     else if (s.equals(getString(R.string.city)))
-                        cbSearchFormatCity.setChecked(true);
+                        binding.cbSearchFormatCity.setChecked(true);
                     else if (s.equals(getString(R.string.info_search)))
-                        cbSearchFormatInfo.setChecked(true);
+                        binding.cbSearchFormatInfo.setChecked(true);
                     else if (s.equals(getString(R.string.resource_help)))
-                        cbSearchFormatResource.setChecked(true);
+                        binding.cbSearchFormatResource.setChecked(true);
                 }
             }
             volunteer_id = volunteer.getVolunteer_id();
@@ -413,39 +307,39 @@ public class VolunteerProfileActivity extends AppCompatActivity implements EasyP
 
 
     private boolean getEnteredData() {
-        String surname = etSurnameAnswer.getText().toString();
-        String name = etNameAnswer.getText().toString();
-        String patronymic = etPatronymicAnswer.getText().toString();
+        String surname = binding.etSurnameAnswer.getText().toString();
+        String name = binding.etNameAnswer.getText().toString();
+        String patronymic = binding.etPatronymicAnswer.getText().toString();
         String fullName = String.format("%s %s %s", surname, name, patronymic);
-        String dateOfBirth = etDateOfBirthAnswer.getText().toString();
-        String phoneNumber = etPhoneNumberAnswer.getText().toString();
-        String forumNickname = etForumNicknameAnswer.getText().toString();
-        String linkToVk = etLinkToVKAnswer.getText().toString();
-        String city = etCity.getText().toString();
-        String street = etStreet.getText().toString();
-        String house = etHouse.getText().toString();
-        String room = etRoom.getText().toString();
+        String dateOfBirth = binding.etDateOfBirthAnswer.getText().toString();
+        String phoneNumber = binding.etPhoneNumberAnswer.getText().toString();
+        String forumNickname = binding.etForumNicknameAnswer.getText().toString();
+        String linkToVk = binding.etLinkToVKAnswer.getText().toString();
+        String city = binding.etCity.getText().toString();
+        String street = binding.etStreet.getText().toString();
+        String house = binding.etHouse.getText().toString();
+        String room = binding.etRoom.getText().toString();
 
         if (surname.isEmpty() || name.isEmpty() || patronymic.isEmpty() || dateOfBirth.isEmpty() || phoneNumber.isEmpty()
                 || city.isEmpty() || street.isEmpty() || house.isEmpty() || room.isEmpty()) {
             return false;
         }
         String address = String.format("%s, %s, %s, %s", city, street, house, room);
-        String passToSeversk = rbYesPassToSeversk.isChecked() ? getString(R.string.yes) : getString(R.string.no);
-        String phoneNumberConfidant = etPhoneNumberConfidant.getText().toString();
-        String signs = etSigns.getText().toString();
-        String specialSigns = etSpecialSigns.getText().toString();
-        String health = etHealth.getText().toString();
-        String car = rbYesCar.isChecked() ? etCar.getText().toString() : getString(R.string.no);
-        String otherTech = etOtherTech.getText().toString();
-        String equipment = etEquipment.getText().toString();
+        String passToSeversk = binding.rbYesPassToSeversk.isChecked() ? getString(R.string.yes) : getString(R.string.no);
+        String phoneNumberConfidant = binding.etPhoneNumberConfidant.getText().toString();
+        String signs = binding.etSigns.getText().toString();
+        String specialSigns = binding.etSpecialSigns.getText().toString();
+        String health = binding.etHealth.getText().toString();
+        String car = binding.rbYesCar.isChecked() ? binding.etCar.getText().toString() : getString(R.string.no);
+        String otherTech = binding.etOtherTech.getText().toString();
+        String equipment = binding.etEquipment.getText().toString();
         String searchFormat;
         StringBuilder sb = new StringBuilder();
-        if (cbSearchFormatForest.isChecked()) sb.append(getString(R.string.forest)).append(DELIMITER_FOR_SEARCH_FORMAT);
-        if (cbSearchFormatCity.isChecked()) sb.append(getString(R.string.city)).append(DELIMITER_FOR_SEARCH_FORMAT);
-        if (cbSearchFormatInfo.isChecked())
+        if (binding.cbSearchFormatForest.isChecked()) sb.append(getString(R.string.forest)).append(DELIMITER_FOR_SEARCH_FORMAT);
+        if (binding.cbSearchFormatCity.isChecked()) sb.append(getString(R.string.city)).append(DELIMITER_FOR_SEARCH_FORMAT);
+        if (binding.cbSearchFormatInfo.isChecked())
             sb.append(getString(R.string.info_search)).append(DELIMITER_FOR_SEARCH_FORMAT);
-        if (cbSearchFormatResource.isChecked()) sb.append(getString(R.string.resource_help));
+        if (binding.cbSearchFormatResource.isChecked()) sb.append(getString(R.string.resource_help));
         searchFormat = sb.toString();
         Date currentDate = new Date();
         DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
@@ -471,7 +365,9 @@ public class VolunteerProfileActivity extends AppCompatActivity implements EasyP
         viewModel.insertVolunteerForProfile(volunteer);
         Log.i("response", volunteer_id + " old send");
         viewModel.sendInfoOnMap(volunteer_id, name, patronymic, surname, address, phoneNumber,
-                linkToVk, car, rbYesCar.isChecked(), rbYesPassToSeversk.isChecked());
+                linkToVk, car, binding.rbYesCar.isChecked(), binding.rbYesPassToSeversk.isChecked());
+
+
         return true;
     }
 
@@ -482,7 +378,6 @@ public class VolunteerProfileActivity extends AppCompatActivity implements EasyP
     private class MakeRequestTask extends AsyncTask<Void, Void, Void> {
         private Sheets mService;
         private Exception mLastError = null;
-
 
         MakeRequestTask(GoogleAccountCredential credential) {
             HttpTransport transport = AndroidHttp.newCompatibleTransport();
@@ -512,8 +407,6 @@ public class VolunteerProfileActivity extends AppCompatActivity implements EasyP
 
         /**
          * Fetch a list of names and majors of students in a sample spreadsheet:
-         * TestTable
-         * https://docs.google.com/spreadsheets/d/17HH6oNL2XJ8_DnHJcLpY64v5gIASSLWxUslsWMonOfI/edit#gid=0
          *
          * @throws IOException
          */
@@ -534,7 +427,7 @@ public class VolunteerProfileActivity extends AppCompatActivity implements EasyP
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            mProgress.hide();
+            mProgress.dismiss();
             Toast.makeText(VolunteerProfileActivity.this, R.string.ok_sending_profile, Toast.LENGTH_SHORT).show();
             onBackPressed();
         }
@@ -561,4 +454,6 @@ public class VolunteerProfileActivity extends AppCompatActivity implements EasyP
             }
         }
     }
+
+
 }

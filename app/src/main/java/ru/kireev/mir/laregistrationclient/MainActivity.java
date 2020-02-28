@@ -15,22 +15,15 @@ import android.widget.Toast;
 
 import java.io.File;
 
+import ru.kireev.mir.laregistrationclient.databinding.ActivityMainBinding;
 import ru.kireev.mir.laregistrationclient.pojo.VolunteerForQR;
 import ru.kireev.mir.laregistrationclient.viewmodels.MainQRViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
-    private EditText editTextName;
-    private EditText editTextSurname;
-    private EditText editTextCallSign;
-    private EditText editTextPhoneNumber;
-    private CheckBox checkBoxHaveACar;
-    private EditText editTextCarMark;
-    private EditText editTextCarModel;
-    private EditText editTextCarRegistrationNumber;
-    private EditText editTextCarColor;
     private MainQRViewModel viewModel;
     private static final int VOLUNTEER_ID = 0;
+    private ActivityMainBinding binding;
 
     private String name;
     private String surname;
@@ -46,7 +39,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
 
         //проверяем, существует ли QRCode (вводились ли данные ранее)
         //если да, то запускаем активити с QRCode из хранилища
@@ -56,56 +51,46 @@ public class MainActivity extends AppCompatActivity {
             startQRCodeActivity();
         }
 
-        editTextName = findViewById(R.id.editTextName);
-        editTextSurname = findViewById(R.id.editTextSurname);
-        editTextCallSign = findViewById(R.id.editTextCallSign);
-        editTextPhoneNumber = findViewById(R.id.editTextPhoneNumber);
-        checkBoxHaveACar = findViewById(R.id.checkBoxHaveACar);
-        editTextCarMark = findViewById(R.id.editTextCarMark);
-        editTextCarModel = findViewById(R.id.editTextCarModel);
-        editTextCarRegistrationNumber = findViewById(R.id.editTextCarRegistrationNumber);
-        editTextCarColor = findViewById(R.id.editTextCarColor);
-
-        checkBoxHaveACar.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        binding.checkBoxHaveACar.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
-                editTextCarMark.setVisibility(View.VISIBLE);
-                editTextCarModel.setVisibility(View.VISIBLE);
-                editTextCarRegistrationNumber.setVisibility(View.VISIBLE);
-                editTextCarColor.setVisibility(View.VISIBLE);
+                binding.editTextCarMark.setVisibility(View.VISIBLE);
+                binding.editTextCarModel.setVisibility(View.VISIBLE);
+                binding.editTextCarRegistrationNumber.setVisibility(View.VISIBLE);
+                binding.editTextCarColor.setVisibility(View.VISIBLE);
             }
             else {
-                editTextCarMark.setVisibility(View.GONE);
-                editTextCarModel.setVisibility(View.GONE);
-                editTextCarRegistrationNumber.setVisibility(View.GONE);
-                editTextCarColor.setVisibility(View.GONE);
+                binding.editTextCarMark.setVisibility(View.GONE);
+                binding.editTextCarModel.setVisibility(View.GONE);
+                binding.editTextCarRegistrationNumber.setVisibility(View.GONE);
+                binding.editTextCarColor.setVisibility(View.GONE);
             }
         });
         viewModel = new ViewModelProvider.AndroidViewModelFactory(getApplication()).create(MainQRViewModel.class);
         VolunteerForQR volunteerForQR = viewModel.getVolunteerForQR();
         if (volunteerForQR != null) {
-            editTextName.setText(volunteerForQR.getName());
-            editTextSurname.setText(volunteerForQR.getSurname());
-            editTextCallSign.setText(volunteerForQR.getCallSign());
-            editTextPhoneNumber.setText(volunteerForQR.getPhoneNumber());
-            checkBoxHaveACar.setChecked(volunteerForQR.getHaveACar() == 1);
-            editTextCarMark.setText(volunteerForQR.getCarMark());
-            editTextCarModel.setText(volunteerForQR.getCarModel());
-            editTextCarRegistrationNumber.setText(volunteerForQR.getCarRegistrationNumber());
-            editTextCarColor.setText(volunteerForQR.getCarColor());
+            binding.editTextName.setText(volunteerForQR.getName());
+            binding.editTextSurname.setText(volunteerForQR.getSurname());
+            binding.editTextCallSign.setText(volunteerForQR.getCallSign());
+            binding.editTextPhoneNumber.setText(volunteerForQR.getPhoneNumber());
+            binding.checkBoxHaveACar.setChecked(volunteerForQR.getHaveACar() == 1);
+            binding.editTextCarMark.setText(volunteerForQR.getCarMark());
+            binding.editTextCarModel.setText(volunteerForQR.getCarModel());
+            binding.editTextCarRegistrationNumber.setText(volunteerForQR.getCarRegistrationNumber());
+            binding.editTextCarColor.setText(volunteerForQR.getCarColor());
         }
 
     }
 
     public void onClickSaveData(View view) {
-        name = editTextName.getText().toString();
-        surname = editTextSurname.getText().toString();
-        callSign = editTextCallSign.getText().toString();
-        phoneNumber = editTextPhoneNumber.getText().toString();
-        haveACar = checkBoxHaveACar.isChecked();
-        carMark = editTextCarMark.getText().toString();
-        carModel = editTextCarModel.getText().toString();
-        carRegistrationNumber = editTextCarRegistrationNumber.getText().toString();
-        carColor = editTextCarColor.getText().toString();
+        name = binding.editTextName.getText().toString();
+        surname = binding.editTextSurname.getText().toString();
+        callSign = binding.editTextCallSign.getText().toString();
+        phoneNumber = binding.editTextPhoneNumber.getText().toString();
+        haveACar = binding.checkBoxHaveACar.isChecked();
+        carMark = binding.editTextCarMark.getText().toString();
+        carModel = binding.editTextCarModel.getText().toString();
+        carRegistrationNumber = binding.editTextCarRegistrationNumber.getText().toString();
+        carColor = binding.editTextCarColor.getText().toString();
 
         if (name.isEmpty() || surname.isEmpty() || phoneNumber.isEmpty()) {
             Toast.makeText(this, R.string.fill_in_fields_info, Toast.LENGTH_SHORT).show();

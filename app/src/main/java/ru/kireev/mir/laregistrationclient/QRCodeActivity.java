@@ -21,54 +21,47 @@ import com.google.zxing.WriterException;
 import java.io.File;
 import java.io.FileOutputStream;
 
+import ru.kireev.mir.laregistrationclient.databinding.ActivityQrcodeBinding;
 import ru.kireev.mir.laregistrationclient.pojo.VolunteerForQR;
 import ru.kireev.mir.laregistrationclient.utils.QRCodeGenerator;
 import ru.kireev.mir.laregistrationclient.viewmodels.MainQRViewModel;
 
 public class QRCodeActivity extends AppCompatActivity {
 
-    private ImageView imageViewQRCode;
+    private ActivityQrcodeBinding binding;
     private Toast exitToast;
     private MainQRViewModel viewModel;
     private static final int IMAGE_WIDTH = 700;
     private static final int IMAGE_HEIGHT = 700;
+    private static final String NAME_OF_QR_CODE_FILE = "QRCodeLizaAlert.png";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_qrcode);
-        imageViewQRCode = findViewById(R.id.imageViewQRCode);
+        binding = ActivityQrcodeBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
+
         viewModel = new MainQRViewModel(getApplication());
         Intent intent = getIntent();
         String message = intent.getStringExtra("message");
 
-        TextView textViewSavedName = findViewById(R.id.textViewSavedName);
-        TextView textViewSavedSurname = findViewById(R.id.textViewSavedSurname);
-        TextView textViewSavedCallSign = findViewById(R.id.textViewSavedCallSign);
-        TextView textViewSavedPhoneNumber = findViewById(R.id.textViewSavedPhoneNumber);
-        TextView textViewSavedCarMark = findViewById(R.id.textViewSavedCarMark);
-        TextView textViewSavedCarModel = findViewById(R.id.textViewSavedCarModel);
-        TextView textViewSavedCarRegistrationNumber = findViewById(R.id.textViewSavedCarRegistrationNumber);
-        TextView textViewSavedCarColor = findViewById(R.id.textViewSavedCarColor);
-        LinearLayout linearLayoutInfoCarGroupTitles = findViewById(R.id.linearLayoutInfoCarGroupTitles);
-        LinearLayout linearLayoutInfoCarGroup = findViewById(R.id.linearLayoutInfoCarGroup);
-
         VolunteerForQR volunteerForQR = viewModel.getVolunteerForQR();
         if (volunteerForQR != null) {
-            textViewSavedName.setText(volunteerForQR.getName());
-            textViewSavedSurname.setText(volunteerForQR.getSurname());
-            textViewSavedCallSign.setText(volunteerForQR.getCallSign());
-            textViewSavedPhoneNumber.setText(volunteerForQR.getPhoneNumber());
+            binding.textViewSavedName.setText(volunteerForQR.getName());
+            binding.textViewSavedSurname.setText(volunteerForQR.getSurname());
+            binding.textViewSavedCallSign.setText(volunteerForQR.getCallSign());
+            binding.textViewSavedPhoneNumber.setText(volunteerForQR.getPhoneNumber());
             if (volunteerForQR.getHaveACar() == 1) {
-                linearLayoutInfoCarGroupTitles.setVisibility(View.VISIBLE);
-                linearLayoutInfoCarGroup.setVisibility(View.VISIBLE);
-                textViewSavedCarMark.setText(volunteerForQR.getCarMark());
-                textViewSavedCarModel.setText(volunteerForQR.getCarModel());
-                textViewSavedCarRegistrationNumber.setText(volunteerForQR.getCarRegistrationNumber());
-                textViewSavedCarColor.setText(volunteerForQR.getCarColor());
+                binding.linearLayoutInfoCarGroupTitles.setVisibility(View.VISIBLE);
+                binding.linearLayoutInfoCarGroup.setVisibility(View.VISIBLE);
+                binding.textViewSavedCarMark.setText(volunteerForQR.getCarMark());
+                binding.textViewSavedCarModel.setText(volunteerForQR.getCarModel());
+                binding.textViewSavedCarRegistrationNumber.setText(volunteerForQR.getCarRegistrationNumber());
+                binding.textViewSavedCarColor.setText(volunteerForQR.getCarColor());
             } else {
-                linearLayoutInfoCarGroupTitles.setVisibility(View.INVISIBLE);
-                linearLayoutInfoCarGroup.setVisibility(View.INVISIBLE);
+                binding.linearLayoutInfoCarGroupTitles.setVisibility(View.INVISIBLE);
+                binding.linearLayoutInfoCarGroup.setVisibility(View.INVISIBLE);
             }
         }
 
@@ -79,9 +72,9 @@ public class QRCodeActivity extends AppCompatActivity {
         if (message.equals("exist")){
             Bitmap bitmap = BitmapFactory.decodeFile(
                     getApplicationContext().getFilesDir()
-                            + "/QRCodeLizaAlert.png");
+                            + "/" + NAME_OF_QR_CODE_FILE);
 
-            imageViewQRCode.setImageBitmap(bitmap);
+            binding.imageViewQRCode.setImageBitmap(bitmap);
         }
 
         //иначе, сохраняем введенные данные и выводим на экран QRCode
@@ -94,7 +87,7 @@ public class QRCodeActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
             if (bitmap != null) {
-                imageViewQRCode.setImageBitmap(bitmap);
+                binding.imageViewQRCode.setImageBitmap(bitmap);
                 saveQRCode(bitmap);
             }
         }
@@ -102,15 +95,11 @@ public class QRCodeActivity extends AppCompatActivity {
     }
 
     private void saveQRCode(Bitmap bitmap) {
-        File file = new File(getApplicationContext().getFilesDir(), "QRCodeLizaAlert.png");
+        File file = new File(getApplicationContext().getFilesDir(), NAME_OF_QR_CODE_FILE);
 
         try {
-            FileOutputStream fos = null;
-            try {
-                fos = new FileOutputStream(file);
+            try (FileOutputStream fos = new FileOutputStream(file)) {
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-            } finally {
-                if (fos != null) fos.close();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -119,7 +108,7 @@ public class QRCodeActivity extends AppCompatActivity {
     }
 
     public void onClickEditData(View view) {
-        File file = new File(getApplicationContext().getFilesDir(), "QRCodeLizaAlert.png");
+        File file = new File(getApplicationContext().getFilesDir(), NAME_OF_QR_CODE_FILE);
         file.delete();
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
