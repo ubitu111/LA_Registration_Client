@@ -1,17 +1,17 @@
 package ru.kireev.mir.laregistrationclient;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.io.File;
 
@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private String carColor;
     private String markForQrCode;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,12 +44,16 @@ public class MainActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
 
+        //подписка на тему Alert
+        FirebaseMessaging.getInstance().subscribeToTopic("alert");
+
         //проверяем, существует ли QRCode (вводились ли данные ранее)
         //если да, то запускаем активити с QRCode из хранилища
         File file = new File(getApplicationContext().getFilesDir() + "/QRCodeLizaAlert.png");
         if (file.exists()) {
             markForQrCode = "exist";
             startQRCodeActivity();
+            finish();
         }
 
         binding.checkBoxHaveACar.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -132,6 +137,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, QRCodeActivity.class);
         intent.putExtra("message", markForQrCode);
         startActivity(intent);
+        finish();
     }
 
     @Override
@@ -143,9 +149,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.menu_action_profile_volunteer) {
-            Intent intent = new Intent(this, VolunteerProfileActivity.class);
-            startActivity(intent);
+        switch (id) {
+            case R.id.menu_action_profile_volunteer:
+                Intent intent = new Intent(this, VolunteerProfileActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.menu_all_active_departures:
+                Intent intentDepartures = new Intent(this, AllActiveDeparturesActivity.class);
+                startActivity(intentDepartures);
+                break;
         }
 
         return super.onOptionsItemSelected(item);

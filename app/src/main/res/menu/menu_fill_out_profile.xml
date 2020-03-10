@@ -2,7 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:title="@string/action_profile_volunteer"
+    <item android:title="@string/menu_profile_volunteer"
         android:id="@+id/menu_action_profile_volunteer"
         app:showAsAction="always"/>
+    <item android:title="@string/app_name_all_departures"
+        android:id="@+id/menu_all_active_departures"/>
 </menu>

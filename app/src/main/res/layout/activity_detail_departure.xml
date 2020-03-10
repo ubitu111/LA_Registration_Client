@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="8dp"
+    android:background="@drawable/la_background"
+    tools:context=".DetailDepartureActivity">
+
+    <TextView
+        android:id="@+id/tvDetailDepartureTopic"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        tools:text="Пропал тот то там то"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvDetailDepartureTimeTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:text="@string/departure_time_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvDetailDepartureTopic" />
+
+    <TextView
+        android:id="@+id/tvDetailDepartureTime"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        tools:text="13-00"
+        app:layout_constraintStart_toEndOf="@+id/tvDetailDepartureTimeTitle"
+        app:layout_constraintTop_toBottomOf="@+id/tvDetailDepartureTopic"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/tvDetailDeparturePlaceTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:text="@string/departure_place_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvDetailDepartureTime" />
+
+    <TextView
+        android:id="@+id/tvDetailDeparturePlace"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        tools:text="Томск, Мариинский гексматеилен  гексматеиллен ывапв"
+        app:layout_constraintStart_toEndOf="@+id/tvDetailDeparturePlaceTitle"
+        app:layout_constraintTop_toBottomOf="@+id/tvDetailDepartureTime"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/tvDetailDepartureCoordinatorTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:text="@string/departure_coordinator_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvDetailDeparturePlace" />
+
+    <TextView
+        android:id="@+id/tvDetailDepartureCoordinator"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        tools:text="Бэтмен (Алексей)"
+        app:layout_constraintStart_toEndOf="@+id/tvDetailDepartureCoordinatorTitle"
+        app:layout_constraintTop_toBottomOf="@+id/tvDetailDeparturePlace"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/tvDetailDepartureInforgTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:text="@string/departure_inforg_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvDetailDepartureCoordinator" />
+
+    <TextView
+        android:id="@+id/tvDetailDepartureInforg"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        tools:text="Рябина (Светлана)"
+        app:layout_constraintStart_toEndOf="@+id/tvDetailDepartureInforgTitle"
+        app:layout_constraintTop_toBottomOf="@+id/tvDetailDepartureCoordinator"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/tvDetailDepartureInforgPhoneTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:text="@string/departure_inforg_phone_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvDetailDepartureInforg" />
+
+    <TextView
+        android:id="@+id/tvDetailDepartureInforgPhone"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:onClick="onClickCallInforg"
+        android:textColor="@color/blue"
+        android:padding="8dp"
+        tools:text="89998887766"
+        app:layout_constraintStart_toEndOf="@+id/tvDetailDepartureInforgPhoneTitle"
+        app:layout_constraintTop_toBottomOf="@+id/tvDetailDepartureInforg"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/tvDetailDepartureForumTopicTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:text="@string/departure_forum_topic_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvDetailDepartureInforgPhone" />
+
+    <TextView
+        android:id="@+id/tvDetailDepartureForumTopic"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:onClick="onClickGoToForum"
+        android:textColor="@color/blue"
+        tools:text="http://lizaalert.org"
+        app:layout_constraintStart_toEndOf="@+id/tvDetailDepartureForumTopicTitle"
+        app:layout_constraintTop_toBottomOf="@+id/tvDetailDepartureInforgPhone"
+        app:layout_constraintEnd_toEndOf="parent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

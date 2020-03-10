@@ -1,8 +1,5 @@
 package ru.kireev.mir.laregistrationclient;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,10 +7,10 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
@@ -149,9 +146,15 @@ public class QRCodeActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.menu_action_profile_volunteer) {
-            Intent intent = new Intent(this, VolunteerProfileActivity.class);
-            startActivity(intent);
+        switch (id) {
+            case R.id.menu_action_profile_volunteer:
+                Intent intent = new Intent(this, VolunteerProfileActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.menu_all_active_departures:
+                Intent intentDepartures = new Intent(this, AllActiveDeparturesActivity.class);
+                startActivity(intentDepartures);
+                break;
         }
 
         return super.onOptionsItemSelected(item);

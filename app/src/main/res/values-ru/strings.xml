@@ -24,7 +24,7 @@
     <string name="saved_registration_number_of_a_car">Госномер -</string>
     <string name="no">Нет</string>
     <string name="yes">Да</string>
-    <string name="action_profile_volunteer">Заполнить анкету</string>
+    <string name="menu_profile_volunteer">Анкета</string>
     <string name="address">Адрес проживания</string>
     <string name="asterisk">" *"</string>
     <string name="city">Работа в черте города</string>
@@ -68,4 +68,15 @@
     <string name="number_of_room">Номер квартиры</string>
     <string name="street_avenue_alley_tract_etc">Улица (проспект,  переулок, тракт)</string>
     <string name="error_occured_address_to_geo">Ошибка конвертации адреса в координаты</string>
+    <string name="alert">Внимание!</string>
+    <string name="departure_time_title">ВРЕМЯ СБОРА:</string>
+    <string name="departure_place_title">МЕСТО СБОРА:</string>
+    <string name="departure_coordinator_title">КООРДИНАТОР:</string>
+    <string name="departure_inforg_title">ИНФОРГ:</string>
+    <string name="departure_inforg_phone_title">НОМЕР ТЕЛЕФОНА ИНФОРГА:</string>
+    <string name="departure_forum_topic_title">ТЕМА НА ФОРУМЕ:</string>
+    <string name="app_name_volunteer_profile">Анкета</string>
+    <string name="app_name_qrcode">QR код</string>
+    <string name="app_name_all_departures">Все оповещения</string>
+    <string name="app_name_detail_departure">Подробно</string>
 </resources>

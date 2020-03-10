@@ -10,7 +10,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -57,11 +58,9 @@ public class VolunteerProfileActivity extends AppCompatActivity implements EasyP
     private ActivityVolunteerProfileBinding binding;
     private GoogleAccountCredential mCredential;
     private ProgressDialog mProgress;
-//    private static final int REQUEST_ACCOUNT_PICKER = 1000;
     private static final int REQUEST_AUTHORIZATION = 1001;
     private static final int REQUEST_GOOGLE_PLAY_SERVICES = 1002;
     private static final int REQUEST_PERMISSION_GET_ACCOUNTS = 1003;
-//    private static final String PREF_ACCOUNT_NAME = "accountName";
     private static final String[] SCOPES = {SheetsScopes.SPREADSHEETS};
     private static final String SPREADSHEET_ID = ""; // ID гугл таблицы
     private static final String GOOGLE_SHEETS_TAB = "Anketa app!A2";
@@ -297,10 +296,8 @@ public class VolunteerProfileActivity extends AppCompatActivity implements EasyP
                 }
             }
             volunteer_id = volunteer.getVolunteer_id();
-            Log.i("response", volunteer_id + " old");
         } else {
             volunteer_id = UUID.randomUUID().toString();
-            Log.i("response", volunteer_id + " new");
         }
 
     }
@@ -363,9 +360,10 @@ public class VolunteerProfileActivity extends AppCompatActivity implements EasyP
                 dateOfBirth, phoneNumber, forumNickname, linkToVk, city, street, house, room, passToSeversk, phoneNumberConfidant, signs, specialSigns, health,
                 otherTech, equipment, car, searchFormat);
         viewModel.insertVolunteerForProfile(volunteer);
-        Log.i("response", volunteer_id + " old send");
-        viewModel.sendInfoOnMap(volunteer_id, name, patronymic, surname, address, phoneNumber,
-                linkToVk, car, binding.rbYesCar.isChecked(), binding.rbYesPassToSeversk.isChecked());
+
+        //Отправка данных на карту волонтеров
+//        viewModel.sendInfoOnMap(volunteer_id, name, patronymic, surname, address, phoneNumber,
+//                linkToVk, car, binding.rbYesCar.isChecked(), binding.rbYesPassToSeversk.isChecked());
 
 
         return true;
@@ -455,5 +453,26 @@ public class VolunteerProfileActivity extends AppCompatActivity implements EasyP
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_fill_out_profile, menu);
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.menu_action_profile_volunteer:
+                Intent intent = new Intent(this, VolunteerProfileActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.menu_all_active_departures:
+                Intent intentDepartures = new Intent(this, AllActiveDeparturesActivity.class);
+                startActivity(intentDepartures);
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 }

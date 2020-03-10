@@ -27,7 +27,7 @@
     <string name="asterisk">" *"</string>
     <string name="my_answer">My answer</string>
     <string name="date_of_birth">Date of birth</string>
-    <string name="action_profile_volunteer">Fill out a form</string>
+    <string name="menu_profile_volunteer">Profile</string>
     <string name="phone_number_profile">Contact phone number (8 **********)</string>
     <string name="forum_nickname">Nick on the forum PSO \"Lisa Alert\" http://lizaalert.org (registration on the forum is required)</string>
     <string name="link_to_vk">Link to a page in VK (or a name in VK where you can be found)</string>
@@ -67,4 +67,15 @@
     <string name="number_of_house">Number of house</string>
     <string name="number_of_room">Number of room</string>
     <string name="error_occured_address_to_geo">Error converting addresses to coordinates</string>
+    <string name="alert">Alert!</string>
+    <string name="departure_time_title">TIME OF GATHERING:</string>
+    <string name="departure_place_title">PLACE OF GATHERING:</string>
+    <string name="departure_coordinator_title">COORDINATOR:</string>
+    <string name="departure_inforg_title">INFORG:</string>
+    <string name="departure_inforg_phone_title">INFORG PHONE NUMBER:</string>
+    <string name="departure_forum_topic_title">FORUM TOPIC:</string>
+    <string name="app_name_volunteer_profile">Profile</string>
+    <string name="app_name_qrcode">QR code</string>
+    <string name="app_name_all_departures">All alerts</string>
+    <string name="app_name_detail_departure">Detail</string>
 </resources>

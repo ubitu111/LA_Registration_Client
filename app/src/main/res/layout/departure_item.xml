@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="16dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tvDepartureMessageTopic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Внимание! Пропал ТТТ #Томск \n20 февраля вышел из дома и неизвестно куда ушел и куда пришел"
+            android:padding="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/tvDepartureTimeTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/departure_time_title"
+            android:padding="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvDepartureMessageTopic" />
+        <TextView
+            android:id="@+id/tvDepartureTime"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            tools:text="13.03.2018 в 19-00"
+            android:padding="8dp"
+            app:layout_constraintStart_toEndOf="@id/tvDepartureTimeTitle"
+            app:layout_constraintTop_toBottomOf="@id/tvDepartureMessageTopic"
+            app:layout_constraintEnd_toEndOf="parent"/>
+        <TextView
+            android:id="@+id/tvDeparturePlaceTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/departure_place_title"
+            android:padding="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvDepartureTime" />
+        <TextView
+            android:id="@+id/tvDeparturePlace"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            tools:text="Томск, Фрунзе 103, парковка на этаж чем есть"
+            android:padding="8dp"
+            app:layout_constraintStart_toEndOf="@id/tvDeparturePlaceTitle"
+            app:layout_constraintTop_toBottomOf="@id/tvDepartureTime"
+            app:layout_constraintEnd_toEndOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

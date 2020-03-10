@@ -6,10 +6,11 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
+import ru.kireev.mir.laregistrationclient.pojo.Departure;
 import ru.kireev.mir.laregistrationclient.pojo.VolunteerForProfile;
 import ru.kireev.mir.laregistrationclient.pojo.VolunteerForQR;
 
-@Database(entities = {VolunteerForQR.class, VolunteerForProfile.class}, version = 5, exportSchema = false)
+@Database(entities = {VolunteerForQR.class, VolunteerForProfile.class, Departure.class}, version = 6, exportSchema = false)
 public abstract class VolunteerDatabase extends RoomDatabase {
     private static VolunteerDatabase database;
     private static final String DB_NAME = "volunteer.db";
@@ -28,4 +29,5 @@ public abstract class VolunteerDatabase extends RoomDatabase {
 
     public abstract VolunteerForQRDao volunteerForQRDao();
     public abstract VolunteerForProfileDao volunteerForProfileDao();
+    public abstract DepartureDao departureDao();
 }
