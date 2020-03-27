@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
 
-        //подписка на тему Alert
+        //подписка на тему Alert Томск (оповещения о поисках)
         FirebaseMessaging.getInstance().subscribeToTopic("alert");
 
         //проверяем, существует ли QRCode (вводились ли данные ранее)
