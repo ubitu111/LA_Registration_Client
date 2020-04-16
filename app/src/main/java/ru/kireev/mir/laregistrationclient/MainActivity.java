@@ -2,16 +2,11 @@ package ru.kireev.mir.laregistrationclient;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
-
-import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.io.File;
 
@@ -45,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(view);
 
         //подписка на тему Alert Томск (оповещения о поисках)
-        FirebaseMessaging.getInstance().subscribeToTopic("alert");
+//        FirebaseMessaging.getInstance().subscribeToTopic("alert");
 
         //проверяем, существует ли QRCode (вводились ли данные ранее)
         //если да, то запускаем активити с QRCode из хранилища
@@ -140,26 +135,26 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_fill_out_profile, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
-        switch (id) {
-            case R.id.menu_action_profile_volunteer:
-                Intent intent = new Intent(this, VolunteerProfileActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.menu_all_active_departures:
-                Intent intentDepartures = new Intent(this, AllActiveDeparturesActivity.class);
-                startActivity(intentDepartures);
-                break;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.menu_fill_out_profile, menu);
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+//        int id = item.getItemId();
+//        switch (id) {
+//            case R.id.menu_action_profile_volunteer:
+//                Intent intent = new Intent(this, VolunteerProfileActivity.class);
+//                startActivity(intent);
+//                break;
+//            case R.id.menu_all_active_departures:
+//                Intent intentDepartures = new Intent(this, AllActiveDeparturesActivity.class);
+//                startActivity(intentDepartures);
+//                break;
+//        }
+//
+//        return super.onOptionsItemSelected(item);
+//    }
 }

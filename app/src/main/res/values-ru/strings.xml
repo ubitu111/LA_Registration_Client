@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Регистрация на поиске</string>
+    <string name="app_name">Доброволец Лиза Алерт</string>
     <string name="call_sign">Позывной (не обязательно)</string>
     <string name="edit_data">Редактировать данные</string>
     <string name="enter_your_data_below">Введите свои данные ниже.</string>

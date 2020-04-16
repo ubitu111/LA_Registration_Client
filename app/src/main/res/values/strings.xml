@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">LA Registration Client</string>
+    <string name="app_name">Volunteer Liza Alert</string>
     <string name="enter_your_data_below">Enter your data below</string>
     <string name="name">Name</string>
     <string name="surname">Surname</string>
