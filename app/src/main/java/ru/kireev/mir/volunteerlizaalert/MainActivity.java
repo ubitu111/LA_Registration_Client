@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -20,17 +21,13 @@ public class MainActivity extends AppCompatActivity {
     private static final int VOLUNTEER_ID = 0;
     private ActivityMainBinding binding;
 
-    private String name;
-    private String surname;
+    private String fullName;
     private String callSign;
+    private String forumNickName;
+    private String region;
     private String phoneNumber;
-    private boolean haveACar;
-    private String carMark;
-    private String carModel;
-    private String carRegistrationNumber;
-    private String carColor;
+    private String car;
     private String markForQrCode;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,88 +48,54 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }
 
-        binding.checkBoxHaveACar.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                binding.editTextCarMark.setVisibility(View.VISIBLE);
-                binding.editTextCarModel.setVisibility(View.VISIBLE);
-                binding.editTextCarRegistrationNumber.setVisibility(View.VISIBLE);
-                binding.editTextCarColor.setVisibility(View.VISIBLE);
-            }
-            else {
-                binding.editTextCarMark.setVisibility(View.GONE);
-                binding.editTextCarModel.setVisibility(View.GONE);
-                binding.editTextCarRegistrationNumber.setVisibility(View.GONE);
-                binding.editTextCarColor.setVisibility(View.GONE);
-            }
-        });
         viewModel = new ViewModelProvider.AndroidViewModelFactory(getApplication()).create(MainQRViewModel.class);
         VolunteerForQR volunteerForQR = viewModel.getVolunteerForQR();
         if (volunteerForQR != null) {
-            binding.editTextName.setText(volunteerForQR.getName());
-            binding.editTextSurname.setText(volunteerForQR.getSurname());
+            binding.editTextFullName.setText(volunteerForQR.getFullName());
             binding.editTextCallSign.setText(volunteerForQR.getCallSign());
+            binding.editTextForumNickname.setText(volunteerForQR.getForumNickName());
+            binding.editTextRegion.setText(volunteerForQR.getRegion());
             binding.editTextPhoneNumber.setText(volunteerForQR.getPhoneNumber());
-            binding.checkBoxHaveACar.setChecked(volunteerForQR.getHaveACar() == 1);
-            binding.editTextCarMark.setText(volunteerForQR.getCarMark());
-            binding.editTextCarModel.setText(volunteerForQR.getCarModel());
-            binding.editTextCarRegistrationNumber.setText(volunteerForQR.getCarRegistrationNumber());
-            binding.editTextCarColor.setText(volunteerForQR.getCarColor());
+            binding.editTextCar.setText(volunteerForQR.getCar());
         }
-
     }
 
     public void onClickSaveData(View view) {
-        name = binding.editTextName.getText().toString();
-        surname = binding.editTextSurname.getText().toString();
-        callSign = binding.editTextCallSign.getText().toString();
-        phoneNumber = binding.editTextPhoneNumber.getText().toString();
-        haveACar = binding.checkBoxHaveACar.isChecked();
-        carMark = binding.editTextCarMark.getText().toString();
-        carModel = binding.editTextCarModel.getText().toString();
-        carRegistrationNumber = binding.editTextCarRegistrationNumber.getText().toString();
-        carColor = binding.editTextCarColor.getText().toString();
+        fullName = String.valueOf(binding.editTextFullName.getText());
+        callSign = String.valueOf(binding.editTextCallSign.getText());
+        forumNickName = String.valueOf(binding.editTextForumNickname.getText());
+        region = String.valueOf(binding.editTextRegion.getText());
+        phoneNumber = String.valueOf(binding.editTextPhoneNumber.getText());
+        car = String.valueOf(binding.editTextCar.getText());
 
-        if (name.isEmpty() || surname.isEmpty() || phoneNumber.isEmpty()) {
-            Toast.makeText(this, R.string.fill_in_fields_info, Toast.LENGTH_SHORT).show();
-        } else if (haveACar && (carMark.isEmpty() || carModel.isEmpty() || carRegistrationNumber.isEmpty() || carColor.isEmpty())) {
-            Toast.makeText(this, R.string.fill_in_fields_car, Toast.LENGTH_SHORT).show();
-        }
-        else {
-            int haveACarInt = haveACar ? 1 : 0;
-            VolunteerForQR volunteerForQR = new VolunteerForQR(VOLUNTEER_ID, name, surname, callSign, phoneNumber, carMark, carModel, carRegistrationNumber, carColor, haveACarInt);
+        if (isValidString(fullName) && isValidString(phoneNumber) && isValidPhone(phoneNumber)) {
+            VolunteerForQR volunteerForQR = new VolunteerForQR(VOLUNTEER_ID, fullName, callSign, forumNickName, region, phoneNumber, car);
             viewModel.insertVolunteerForQR(volunteerForQR);
-            if (haveACar) {
-                markForQrCode = getMessageWithCar();
-            } else {
-                markForQrCode = getMessageWithoutCar();
-            }
+            markForQrCode = getMessage();
             startQRCodeActivity();
+        } else {
+            Toast.makeText(this, R.string.fill_in_fields_info, Toast.LENGTH_SHORT).show();
         }
     }
 
-    private String getMessageWithoutCar(){
-         return name + "\n"
-                + surname + "\n"
-                + callSign + "\n"
-                + phoneNumber;
+    private String getMessage() {
+        return fullName + "\n" + callSign + "\n" + forumNickName + "\n" + region + "\n" + phoneNumber + "\n" + car;
     }
 
-    private String getMessageWithCar(){
-        return name + "\n"
-                + surname + "\n"
-                + callSign + "\n"
-                + phoneNumber + "\n"
-                + carMark + "\n"
-                + carModel + "\n"
-                + carRegistrationNumber + "\n"
-                + carColor;
-    }
-
-    private void startQRCodeActivity(){
+    private void startQRCodeActivity() {
         Intent intent = new Intent(this, QRCodeActivity.class);
         intent.putExtra("message", markForQrCode);
         startActivity(intent);
         finish();
+    }
+
+    private boolean isValidString(@NonNull String value) {
+        String nullString = "null";
+        return !value.isEmpty() && !value.equals(nullString);
+    }
+
+    private boolean isValidPhone(String phoneNumber) {
+        return phoneNumber.length() == 11;
     }
 
 //    @Override

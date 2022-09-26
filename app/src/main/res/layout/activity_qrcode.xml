@@ -9,9 +9,9 @@
 
     <ImageView
         android:id="@+id/imageViewQRCode"
-        android:layout_marginTop="8dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -21,9 +21,9 @@
         android:id="@+id/buttonEditData"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/edit_data"
         android:layout_margin="8dp"
         android:onClick="onClickEditData"
+        android:text="@string/edit_data"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -38,159 +38,116 @@
         app:layout_constraintTop_toBottomOf="@+id/imageViewQRCode" />
 
     <TextView
-        android:id="@+id/textViewTitleSavedName"
-        android:textSize="12sp"
-        android:padding="4dp"
+        android:id="@+id/textViewTitleSavedFullName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/saved_name"
+        android:padding="4dp"
+        android:text="@string/saved_full_name"
+        android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewSavedData" />
 
     <TextView
-        android:id="@+id/textViewSavedName"
-        android:textSize="12sp"
-        android:padding="4dp"
+        android:id="@+id/textViewSavedFullName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@+id/textViewTitleSavedName"
+        android:padding="4dp"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@+id/textViewTitleSavedFullName"
         app:layout_constraintTop_toBottomOf="@+id/textViewSavedData" />
-
-    <TextView
-        android:id="@+id/textViewTitleSavedSurname"
-        android:textSize="12sp"
-        android:padding="4dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/saved_surname"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewTitleSavedName" />
-
-    <TextView
-        android:id="@+id/textViewSavedSurname"
-        android:textSize="12sp"
-        android:padding="4dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@+id/textViewTitleSavedSurname"
-        app:layout_constraintTop_toBottomOf="@+id/textViewSavedName" />
 
     <TextView
         android:id="@+id/textViewTitleSavedCallSign"
-        android:textSize="12sp"
-        android:padding="4dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="4dp"
         android:text="@string/saved_call_sign"
+        android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewTitleSavedSurname" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewTitleSavedFullName" />
 
     <TextView
         android:id="@+id/textViewSavedCallSign"
-        android:textSize="12sp"
-        android:padding="4dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:textSize="12sp"
         app:layout_constraintStart_toEndOf="@+id/textViewTitleSavedCallSign"
-        app:layout_constraintTop_toBottomOf="@+id/textViewSavedSurname" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewSavedFullName" />
+
+    <TextView
+        android:id="@+id/textViewTitleSavedForumNickName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:text="@string/saved_forum_nickname"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewSavedCallSign" />
+
+    <TextView
+        android:id="@+id/textViewSavedForumNickName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@+id/textViewTitleSavedForumNickName"
+        app:layout_constraintTop_toBottomOf="@+id/textViewSavedCallSign" />
+
+    <TextView
+        android:id="@+id/textViewTitleSavedRegion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:text="@string/saved_region"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewSavedForumNickName" />
+
+    <TextView
+        android:id="@+id/textViewSavedRegion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@+id/textViewTitleSavedRegion"
+        app:layout_constraintTop_toBottomOf="@+id/textViewSavedForumNickName" />
 
     <TextView
         android:id="@+id/textViewTitleSavedPhoneNumber"
-        android:textSize="12sp"
-        android:padding="4dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="4dp"
         android:text="@string/saved_phone_number"
+        android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewTitleSavedCallSign" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewSavedRegion" />
 
     <TextView
         android:id="@+id/textViewSavedPhoneNumber"
-        android:textSize="12sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:padding="4dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:textSize="12sp"
         app:layout_constraintStart_toEndOf="@+id/textViewTitleSavedPhoneNumber"
-        app:layout_constraintTop_toBottomOf="@+id/textViewSavedCallSign" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewSavedRegion" />
 
-    <LinearLayout
-        android:id="@+id/linearLayoutInfoCarGroupTitles"
-        android:orientation="vertical"
-        android:visibility="gone"
+    <TextView
+        android:id="@+id/textViewTitleSavedCarMark"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:text="@string/saved_car"
+        android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewSavedPhoneNumber">
+        app:layout_constraintTop_toBottomOf="@+id/textViewSavedPhoneNumber" />
 
-        <TextView
-            android:id="@+id/textViewTitleSavedCarMark"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="4dp"
-            android:text="@string/saved_mark_of_a_car"
-            android:textSize="12sp" />
-
-        <TextView
-            android:id="@+id/textViewTitleSavedCarModel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="4dp"
-            android:text="@string/saved_model_of_a_car"
-            android:textSize="12sp" />
-
-        <TextView
-            android:id="@+id/textViewTitleSavedCarRegistrationNumber"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="4dp"
-            android:text="@string/saved_registration_number_of_a_car"
-            android:textSize="12sp" />
-
-        <TextView
-            android:id="@+id/textViewTitleSavedCarColor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="4dp"
-            android:text="@string/saved_color_of_a_car"
-            android:textSize="12sp" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayoutInfoCarGroup"
+    <TextView
+        android:id="@+id/textViewSavedCarMark"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:orientation="vertical"
-        app:layout_constraintStart_toEndOf="@+id/linearLayoutInfoCarGroupTitles"
-        app:layout_constraintTop_toBottomOf="@+id/textViewSavedPhoneNumber">
-
-        <TextView
-            android:id="@+id/textViewSavedCarMark"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="4dp"
-            android:textSize="12sp" />
-
-        <TextView
-            android:id="@+id/textViewSavedCarModel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="4dp"
-            android:textSize="12sp" />
-
-        <TextView
-            android:id="@+id/textViewSavedCarRegistrationNumber"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="4dp"
-            android:textSize="12sp"/>
-
-        <TextView
-            android:id="@+id/textViewSavedCarColor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="4dp"
-            android:textSize="12sp"/>
-    </LinearLayout>
+        android:padding="4dp"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@+id/textViewTitleSavedCarMark"
+        app:layout_constraintTop_toBottomOf="@+id/textViewSavedPhoneNumber" />
 </androidx.constraintlayout.widget.ConstraintLayout>

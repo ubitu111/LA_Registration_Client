@@ -42,21 +42,12 @@ public class QRCodeActivity extends AppCompatActivity {
 
         VolunteerForQR volunteerForQR = viewModel.getVolunteerForQR();
         if (volunteerForQR != null) {
-            binding.textViewSavedName.setText(volunteerForQR.getName());
-            binding.textViewSavedSurname.setText(volunteerForQR.getSurname());
+            binding.textViewSavedFullName.setText(volunteerForQR.getFullName());
             binding.textViewSavedCallSign.setText(volunteerForQR.getCallSign());
+            binding.textViewSavedForumNickName.setText(volunteerForQR.getForumNickName());
+            binding.textViewSavedRegion.setText(volunteerForQR.getRegion());
             binding.textViewSavedPhoneNumber.setText(volunteerForQR.getPhoneNumber());
-            if (volunteerForQR.getHaveACar() == 1) {
-                binding.linearLayoutInfoCarGroupTitles.setVisibility(View.VISIBLE);
-                binding.linearLayoutInfoCarGroup.setVisibility(View.VISIBLE);
-                binding.textViewSavedCarMark.setText(volunteerForQR.getCarMark());
-                binding.textViewSavedCarModel.setText(volunteerForQR.getCarModel());
-                binding.textViewSavedCarRegistrationNumber.setText(volunteerForQR.getCarRegistrationNumber());
-                binding.textViewSavedCarColor.setText(volunteerForQR.getCarColor());
-            } else {
-                binding.linearLayoutInfoCarGroupTitles.setVisibility(View.INVISIBLE);
-                binding.linearLayoutInfoCarGroup.setVisibility(View.INVISIBLE);
-            }
+            binding.textViewSavedCarMark.setText(volunteerForQR.getCar());
         }
 
         //смотрим результат метки из прошлой активности
@@ -85,7 +76,6 @@ public class QRCodeActivity extends AppCompatActivity {
                 saveQRCode(bitmap);
             }
         }
-
     }
 
     private void saveQRCode(Bitmap bitmap) {
@@ -108,8 +98,6 @@ public class QRCodeActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-
-
     @Override
     public void onBackPressed()
     {
@@ -118,21 +106,10 @@ public class QRCodeActivity extends AppCompatActivity {
             exitToast.show();
         } else {
             exitToast.cancel();
-            moveTaskToBack(true);
             finish();
-            System.runFinalizersOnExit(true);
-            System.exit(0);
         }
-
-
     }
 
-    public void onDestroy() {
-        super.onDestroy();
-
-        System.runFinalizersOnExit(true);
-        System.exit(0);
-    }
     //Убрана возможность отправить анкету и просмотр оповещений для регионов
 //    @Override
 //    public boolean onCreateOptionsMenu(Menu menu) {

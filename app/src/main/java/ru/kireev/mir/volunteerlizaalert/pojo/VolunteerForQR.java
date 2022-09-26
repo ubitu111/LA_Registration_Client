@@ -7,29 +7,30 @@ import androidx.room.PrimaryKey;
 public class VolunteerForQR {
     @PrimaryKey()
     private int id;
-    private String name;
-    private String surname;
+    private String fullName;
     private String callSign;
+    private String forumNickName;
+    private String region;
     private String phoneNumber;
-    private String carMark;
-    private String carModel;
-    private String carRegistrationNumber;
-    private String carColor;
-    private int haveACar;
+    private String car;
 
-    public VolunteerForQR(int id, String name, String surname, String callSign, String phoneNumber, String carMark, String carModel, String carRegistrationNumber, String carColor, int haveACar) {
+    public VolunteerForQR(
+            int id,
+            String fullName,
+            String callSign,
+            String forumNickName,
+            String region,
+            String phoneNumber,
+            String car
+    ) {
         this.id = id;
-        this.name = name;
-        this.surname = surname;
+        this.fullName = fullName;
         this.callSign = callSign;
+        this.forumNickName = forumNickName;
+        this.region = region;
         this.phoneNumber = phoneNumber;
-        this.carMark = carMark;
-        this.carModel = carModel;
-        this.carRegistrationNumber = carRegistrationNumber;
-        this.carColor = carColor;
-        this.haveACar = haveACar;
+        this.car = car;
     }
-
 
     public int getId() {
         return id;
@@ -39,20 +40,12 @@ public class VolunteerForQR {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public String getCallSign() {
@@ -63,6 +56,22 @@ public class VolunteerForQR {
         this.callSign = callSign;
     }
 
+    public String getForumNickName() {
+        return forumNickName;
+    }
+
+    public void setForumNickName(String forumNickName) {
+        this.forumNickName = forumNickName;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
     public String getPhoneNumber() {
         return phoneNumber;
     }
@@ -71,43 +80,11 @@ public class VolunteerForQR {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getCarMark() {
-        return carMark;
+    public String getCar() {
+        return car;
     }
 
-    public void setCarMark(String carMark) {
-        this.carMark = carMark;
-    }
-
-    public String getCarModel() {
-        return carModel;
-    }
-
-    public void setCarModel(String carModel) {
-        this.carModel = carModel;
-    }
-
-    public String getCarRegistrationNumber() {
-        return carRegistrationNumber;
-    }
-
-    public void setCarRegistrationNumber(String carRegistrationNumber) {
-        this.carRegistrationNumber = carRegistrationNumber;
-    }
-
-    public String getCarColor() {
-        return carColor;
-    }
-
-    public void setCarColor(String carColor) {
-        this.carColor = carColor;
-    }
-
-    public int getHaveACar() {
-        return haveACar;
-    }
-
-    public void setHaveACar(int haveACar) {
-        this.haveACar = haveACar;
+    public void setCar(String car) {
+        this.car = car;
     }
 }
