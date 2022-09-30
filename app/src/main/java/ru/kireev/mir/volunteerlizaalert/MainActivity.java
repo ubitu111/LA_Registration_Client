@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
     private MainQRViewModel viewModel;
     private static final int VOLUNTEER_ID = 0;
+    private static final String CAR_STUB = "-";
     private ActivityMainBinding binding;
 
     private String fullName;
@@ -66,7 +67,12 @@ public class MainActivity extends AppCompatActivity {
         forumNickName = String.valueOf(binding.editTextForumNickname.getText());
         region = String.valueOf(binding.editTextRegion.getText());
         phoneNumber = String.valueOf(binding.editTextPhoneNumber.getText());
-        car = String.valueOf(binding.editTextCar.getText());
+        String carInfo = String.valueOf(binding.editTextCar.getText());
+        if (carInfo.isEmpty()) {
+            car = CAR_STUB;
+        } else {
+            car = carInfo;
+        }
 
         if (isValidString(fullName) && isValidString(phoneNumber) && isValidPhone(phoneNumber)) {
             VolunteerForQR volunteerForQR = new VolunteerForQR(VOLUNTEER_ID, fullName, callSign, forumNickName, region, phoneNumber, car);
