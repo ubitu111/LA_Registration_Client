@@ -10,7 +10,7 @@ import ru.kireev.mir.volunteerlizaalert.pojo.Departure;
 import ru.kireev.mir.volunteerlizaalert.pojo.VolunteerForProfile;
 import ru.kireev.mir.volunteerlizaalert.pojo.VolunteerForQR;
 
-@Database(entities = {VolunteerForQR.class, VolunteerForProfile.class, Departure.class}, version = 6, exportSchema = false)
+@Database(entities = {VolunteerForQR.class, VolunteerForProfile.class, Departure.class}, version = 7, exportSchema = false)
 public abstract class VolunteerDatabase extends RoomDatabase {
     private static VolunteerDatabase database;
     private static final String DB_NAME = "volunteer.db";

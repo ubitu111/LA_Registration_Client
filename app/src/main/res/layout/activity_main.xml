@@ -5,8 +5,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/la_background"
     tools:context=".MainActivity"
-    android:background="@drawable/la_background">
+    tools:ignore="Autofill">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -23,53 +24,91 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
-
-            android:id="@+id/editTextName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:hint="@string/name"
-            android:inputType="textPersonName"
-            android:textSize="15sp"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/inputLayoutFullName"
+            style="@style/TextInputLayoutStyleAddManually"
+            android:hint="@string/fullName"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewContent" />
+            app:layout_constraintTop_toBottomOf="@+id/textViewContent">
 
-        <EditText
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextFullName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName|textCapWords" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-            android:id="@+id/editTextSurname"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:hint="@string/surname"
-            android:inputType="textPersonName"
-            android:textSize="15sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextName" />
-
-        <EditText
-
-            android:id="@+id/editTextCallSign"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/inputLayoutCallSign"
+            style="@style/TextInputLayoutStyleAddManually"
             android:hint="@string/call_sign"
-            android:inputType="textPersonName"
-            android:textSize="15sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextSurname" />
+            app:layout_constraintTop_toBottomOf="@+id/inputLayoutFullName">
 
-        <EditText
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextCallSign"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName|textCapWords" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-            android:id="@+id/editTextPhoneNumber"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/inputLayoutForumNickname"
+            style="@style/TextInputLayoutStyleAddManually"
+            android:hint="@string/qr_forum_nickname"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/inputLayoutCallSign">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextForumNickname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName|textCapWords" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/inputLayoutRegion"
+            style="@style/TextInputLayoutStyleAddManually"
+            android:hint="@string/region"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/inputLayoutForumNickname">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextRegion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName|textCapWords" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/inputLayoutPhoneNumber"
+            style="@style/TextInputLayoutStyleAddManually"
             android:hint="@string/phone_number"
-            android:inputType="phone"
-            android:textSize="15sp"
+            app:counterEnabled="true"
+            app:counterMaxLength="11"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextCallSign" />
+            app:layout_constraintTop_toBottomOf="@+id/inputLayoutRegion">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextPhoneNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="phone" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/inputLayoutCar"
+            style="@style/TextInputLayoutStyleAddManually"
+            android:hint="@string/info_about_car"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/inputLayoutPhoneNumber">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextCar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName|textCapCharacters" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/button"
@@ -77,69 +116,10 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
             android:onClick="onClickSaveData"
             android:text="@string/save_data"
             android:textSize="15sp"
-            app:layout_constraintTop_toBottomOf="@id/editTextCarColor"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <CheckBox
-            android:id="@+id/checkBoxHaveACar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:text="@string/have_a_car"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextPhoneNumber" />
-
-        <EditText
-            android:id="@+id/editTextCarMark"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:hint="@string/mark_of_a_car"
-            android:inputType="textPersonName"
-            android:textSize="15sp"
-            android:visibility="gone"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/checkBoxHaveACar" />
-
-        <EditText
-            android:id="@+id/editTextCarModel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:hint="@string/model_of_a_car"
-            android:inputType="textPersonName"
-            android:textSize="15sp"
-            android:visibility="gone"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextCarMark" />
-
-        <EditText
-            android:id="@+id/editTextCarRegistrationNumber"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:hint="@string/registration_number_of_a_car"
-            android:inputType="textPersonName"
-            android:textSize="15sp"
-            android:visibility="gone"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextCarModel" />
-
-        <EditText
-            android:id="@+id/editTextCarColor"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:hint="@string/color_of_a_car"
-            android:inputType="textPersonName"
-            android:textSize="15sp"
-            android:visibility="gone"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextCarRegistrationNumber" />
-
+            app:layout_constraintTop_toBottomOf="@+id/inputLayoutCar" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

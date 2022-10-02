@@ -1,14 +1,14 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 android {
-    compileSdkVersion 29
+    compileSdkVersion 32
     buildToolsVersion "29.0.3"
     defaultConfig {
         applicationId "ru.kireev.mir.volunteerlizaalert"
-        minSdkVersion 16
-        targetSdkVersion 29
-        versionCode 1
-        versionName "1.0.0"
+        minSdkVersion 17
+        targetSdkVersion 32
+        versionCode 2
+        versionName "1.1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
@@ -25,6 +25,14 @@ android {
     viewBinding {
         enabled = true
     }
+    signingConfigs {
+        release {
+            storeFile file("$project.rootDir/key/keystore.jks")
+            storePassword 'before'
+            keyAlias 'key0laregistrationmain'
+            keyPassword 'beforeiforget1'
+        }
+    }
 }
 
 dependencies {
@@ -38,7 +46,7 @@ dependencies {
     implementation 'com.google.zxing:javase:3.3.0'
 
     implementation 'com.google.android.gms:play-services-auth:19.0.0'
-    implementation 'pub.devrel:easypermissions:0.3.0'
+    implementation 'pub.devrel:easypermissions:3.0.0'
     implementation('com.google.api-client:google-api-client-android:1.30.7') {
         exclude group: 'org.apache.httpcomponents'
     }
@@ -67,6 +75,6 @@ dependencies {
 
     // add the Firebase SDK for Google Analytics
     implementation 'com.google.firebase:firebase-analytics:18.0.2'
-    implementation 'com.firebaseui:firebase-ui-auth:6.2.0'
+    implementation 'com.firebaseui:firebase-ui-auth:8.0.1'
     implementation 'com.google.firebase:firebase-messaging:21.0.1'
 }
