@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="ru.kireev.mir.laregistrationclient">
+    package="ru.kireev.mir.volunteerlizaalert">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -17,39 +17,41 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
 
-
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ic_push" />
+
         <activity
-            android:name=".SplashActivity"
+            android:name="ru.kireev.mir.volunteerlizaalert.SplashActivity"
+            android:exported="true"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".VolunteerProfileActivity"
+            android:name="ru.kireev.mir.volunteerlizaalert.VolunteerProfileActivity"
             android:label="@string/app_name_volunteer_profile"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".QRCodeActivity"
+            android:name="ru.kireev.mir.volunteerlizaalert.QRCodeActivity"
             android:label="@string/app_name_qrcode"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".MainActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".DetailDepartureActivity"
+            android:name="ru.kireev.mir.volunteerlizaalert.MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="ru.kireev.mir.volunteerlizaalert.DetailDepartureActivity"
             android:label="@string/app_name_detail_departure"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".AllActiveDeparturesActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="ru.kireev.mir.volunteerlizaalert.AllActiveDeparturesActivity"
             android:label="@string/app_name_all_departures"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
 
         <service
-            android:name=".services.MyFirebaseMessagingService"
+            android:name="ru.kireev.mir.volunteerlizaalert.services.MyFirebaseMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
